@@ -76,21 +76,22 @@ return this.setState({number: +id})
 }
 
 ViewContent = () => {
-   switch (this.state.number){
+  const {number, grades,res} = this.state;
+   switch (number){
     case 0 : 
       return (
       <>
       <Corner></Corner>
       <DivBottomBlock className="d-flex justify-content-center" >
         <DivSelectBlock className="d-flex align-items-end flex-column">
-          <Select label='Материал' data={this.state.grades}></Select>
+          <Select label='Материал' data={grades}></Select>
           <Select label='Марка'></Select>
         </DivSelectBlock>
         <DivButtonBlock className='d-flex align-items-center justify-content-start'>
           <ButtonCalc></ButtonCalc>
         </DivButtonBlock>
       </DivBottomBlock>
-      <span>{this.state.res}</span>
+      <span>{res}</span>
       </>
       )
 
@@ -116,7 +117,7 @@ ViewContent = () => {
       return <p>This is 7</p>
     
     default:
-      console.log('error')
+      console.log('Error, page not found')
   }
 }
   render(){

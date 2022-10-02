@@ -1,0 +1,26 @@
+.inputHeight {
+    margin-bottom: 86px;
+    margin-right: 374px;
+}
+
+.inputWidth{
+    margin-top: 270px;
+    margin-left: 218px;
+}
+
+.inputThickness {
+    margin-bottom: 108px;
+    margin-left: 274px;
+}
+
+.inputLength{
+    margin-bottom: 260px;
+    margin-left: 274px;
+}
+
+.svg {
+    display: absolute;
+}
+.transition{
+    transition: 0.3s;
+  }

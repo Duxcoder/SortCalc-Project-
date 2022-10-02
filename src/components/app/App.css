@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Kelly+Slab&family=Ubuntu:wght@300;400;500;700&display=swap');
+.length{
+  min-height: 800px;
+}
+
+h1 {
+  color: #fff;
+  font-size: 30px !important;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  margin: 0 !important;
+}
+span.pageName {
+  color: #fff;
+  font-size: 20px !important;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+.head{
+  height: 80px;
+  background-color: #fff;
+  margin-bottom: 40px;
+}
+.bg-white{
+  position: absolute;
+  height: 80px;
+  background-color:#fff;
+  width:100%;
+  z-index: -9;
+}
+.main{
+width: 720px;
+height: auto;
+background: #EEEEEE;
+border-radius: 5px;
+padding-left: 0 !important;
+padding-right: 0 !important;
+}
+
+.button {
+width: 260px;
+height: 44px;
+background: #755F5F;
+border-radius: 5px;
+
+text-align: left;
+padding-left: 28px;
+font-family: 'Ubuntu';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 21px;
+color: #FFFFFF;
+margin-bottom: 10px;
+margin-right: 8px;
+transition: 0.3s;
+}
+.button:hover{
+background:#624B4B;
+padding-left: 34px;
+transition: 0.3s;
+}
+.button-active{
+  background:#241414;
+  padding-left: 34px;
+  margin-left: 10px;
+  }
+
+.footerText{
+  color:rgb(142, 122, 122);
+  font-size:14px;
+}
+.footerText a{
+  color:rgb(142, 122, 122);
+  font-size:14px;
+  outline:none;
+  text-decoration: none;
+}
+.footerText a:hover{
+  color:rgb(176, 161, 161);
+  font-size:14px;
+  outline:none;
+  text-decoration: none;
+}
+

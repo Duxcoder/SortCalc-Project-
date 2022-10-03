@@ -26,24 +26,24 @@ margin: 6px 8px;
 
 `
 
-const Select = ({label}) => {
+const Select = ({label, dataValues}) => {
    
 
 const createArr = (nameStell, densityStell) => {
     
     }
-const data = {
-    steels: [
-        { name: 'Сталь 3', density: 20 },
-        { name: 'Сталь 45', density: 41 }
-    ]
-}
+// const data = {
+//     steels: [
+//         { name: 'Сталь 3', density: 20 },
+//         { name: 'Сталь 45', density: 41 }
+//     ]
+// }
 let defaultValue = 2;
 
 const Options = ({data}) => {
     console.log(data)
     const arr = data.map((item, i) => {
-       return <option key ={i} value={item.density}>{item.name}</option>
+       return <option key ={i} value={item.i}>{item}</option>
     })
     console.log(arr)
 return arr
@@ -53,7 +53,7 @@ return ( <>
     <label>
     <span>{label}:</span>
       <SelectStyle defaultValue={defaultValue}>
-        <Options data={data.steels}></Options>
+        <Options data={dataValues}></Options>
         <option value={defaultValue}>Коктейль</option>
       </SelectStyle>
     </label>

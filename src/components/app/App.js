@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import {Container, Row, Col} from 'react-bootstrap';
 import ButtonsList from '../buttonsList/buttonsList';
 import Corner from '../pages/corner/corner';
-import Select from '../../components/select/select';
-import ButtonCalc from '../button/button';
+import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 
 const Logo = styled.div`
 width: 127px;
@@ -18,18 +17,6 @@ font-weight: 400;
 font-size: 36px;
 line-height: 44px;
 color: #000000;`
-const DivBottomBlock = styled.div`
-margin-top:20px;
-width:100%;
-height:auto;
-`
-const DivButtonBlock = styled.div`
-margin: 0 10px;
-
-`
-const DivSelectBlock = styled.div`
-
-`
 
 const HeaderTitleBlock = styled.div`
 width: 100%;
@@ -40,7 +27,6 @@ padding: 12px 20px;
 background-color: #755F5F;
 border-radius: 10px 10px 0 0;
 `
-
 const DivButtons = styled.div`
 `
 const Footer = styled.div`
@@ -76,22 +62,13 @@ return this.setState({number: +id})
 }
 
 ViewContent = () => {
-  const {number, grades,res} = this.state;
+  const {number, grades} = this.state;
    switch (number){
     case 0 : 
       return (
       <>
       <Corner></Corner>
-      <DivBottomBlock className="d-flex justify-content-center" >
-        <DivSelectBlock className="d-flex align-items-end flex-column">
-          <Select label='Материал' data={grades}></Select>
-          <Select label='Марка'></Select>
-        </DivSelectBlock>
-        <DivButtonBlock className='d-flex align-items-center justify-content-start'>
-          <ButtonCalc></ButtonCalc>
-        </DivButtonBlock>
-      </DivBottomBlock>
-      <span>{res}</span>
+      <CalcBottomBlock data ={grades}></CalcBottomBlock>
       </>
       )
 
@@ -121,7 +98,7 @@ ViewContent = () => {
   }
 }
   render(){
- 
+
     return (
       <>
       <div className='bg-white container-fluid'></div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import styled from 'styled-components';
 
 
@@ -26,40 +26,41 @@ margin: 6px 8px;
 
 `
 
-const Select = ({label, dataValues}) => {
-   
 
-const createArr = (nameStell, densityStell) => {
-    
+
+
+export default class Select extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {value: this.props.dataValues[0]};
+  
+      this.handleChange = this.handleChange.bind(this);
     }
-// const data = {
-//     steels: [
-//         { name: 'Сталь 3', density: 20 },
-//         { name: 'Сталь 45', density: 41 }
-//     ]
-// }
-let defaultValue = 2;
+  
+    handleChange(event) {
+      this.setState({value: event.target.value});
+    this.props.whatYouCheck(this.state.value);
 
-const Options = ({data}) => {
-    console.log(data)
-    const arr = data.map((item, i) => {
-       return <option key ={i} value={item.i}>{item}</option>
-    })
-    console.log(arr)
-return arr
     }
-return ( <>
-<DivSelect>
-    <label>
-    <span>{label}:</span>
-      <SelectStyle defaultValue={defaultValue}>
-        <Options data={dataValues}></Options>
-        <option value={defaultValue}>Коктейль</option>
-      </SelectStyle>
-    </label>
-</DivSelect>
-    </>
-)
-}
-
-export default Select;
+  
+    Options = ({data}) => {
+        const arr = data.map((item, i) => {
+           return <option key={i} value={item.i}>{item}</option>
+        })
+        return arr
+    }
+    render() {
+      return (
+        <form >
+        <DivSelect>
+            <label>
+                <span>{this.props.label}:</span>
+                <SelectStyle value= {this.state.value} onChange={this.handleChange}>
+                    <this.Options data={this.props.dataValues}></this.Options>
+                </SelectStyle>
+            </label>
+        </DivSelect>
+        </form>
+      );
+    }
+  }

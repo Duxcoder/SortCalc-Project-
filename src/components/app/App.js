@@ -50,6 +50,10 @@ constructor(props){
         { name: 'Сталь 45', density: 7826, material: 'Сталь' },
         { name: '08Х18Н10Т', density: 7900, material: 'Сталь' },
       ],
+      aluminium: [
+        {name: 'АЛ1', density: 2750, material: 'Алюминий'},
+        {name: 'АЛ2', density: 2650, material: 'Алюминий'}
+      ]
     },
   }
 }

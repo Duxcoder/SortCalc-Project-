@@ -20,11 +20,13 @@ export default class CalcBottomBlock extends Component {
 constructor(props){
     super(props);
     this.state = {
-        value: ''
+        valueMat: 'Сталь',
+        valueGraid: 'Сталь 45',
+        valueGraidArr: ['Сталь 45', 'Сталь Ст3', '8ХЛ']
     }
 }
 
-giveMeProps = (arr, option) => {
+createArrProps= (arr, option) => {
     const newArr = []
     arr.map((item, i) => {
         return newArr[i] = item[option]
@@ -32,11 +34,7 @@ giveMeProps = (arr, option) => {
     return newArr
     }
 
-selectGrades = () => {
-
-}
-
-choiceMaterial = () => {
+createArrMaterials = () => {
     let arr = []
     for (let key in this.props.data) {
        this.props.data[key].map (item => {
@@ -48,18 +46,53 @@ choiceMaterial = () => {
     })
 return newArray
 }
+iCheckIt = (valueSelect) => {
+    const {data} = this.props;
+    let objGradesMaterial;
+    
+    if (this.createArrMaterials().includes(valueSelect)) {
+        this.setState({valueMat : valueSelect});
 
-iCheckIt = (item) => {
-    this.setState({value : item});
-    console.log(this.state)
+        for (let key in data){
+            if (data[key][0].material === this.state.valueMat){ // поиск материла в базе со стейтом материала
+                objGradesMaterial = data[key] //объект с марками материала в стейте
+                console.log(objGradesMaterial)
+            }
+        }
+        const arrGraides = objGradesMaterial.map(item => { //объект в массив марок материала стейта
+            return item.name
+        })
+        this.setState({valueGraidArr : arrGraides})
+
+        this.setState({valueGraid : arrGraides[0]})
+        console.log('change materials', this.state)
+    } else {
+        this.setState({valueGraid : valueSelect})
+        console.log('change grades')
+    }
+    
+
 }
 
+// getGrades = (property) => {
+// const {data} = this.props;
+// let arr = []
+//     for (let key in data){
+//         if (data[key][0].material === this.state.value){
+//             console.log(data[key][0].material, this.state.value, data[key])
+//             arr = data[key]
+//         } 
+        
+//     }
+//     return this.createArrProps(arr, property)
+
+// }
 render(){
     return (<>
         <DivBottomBlock className="d-flex justify-content-center" >
             <DivSelectBlock className="d-flex align-items-end flex-column">
-              <Select label='Материал' dataValues={this.choiceMaterial()} whatYouCheck={this.iCheckIt}></Select>
-              <Select label='Марка' dataValues={this.giveMeProps(this.props.data.steels, 'name')} whatYouCheck={this.iCheckIt}></Select>
+              <Select label='Материал' defaultSelected={this.state.valueMat} dataValues={this.createArrMaterials()} whatYouCheck={this.iCheckIt}></Select>
+              <Select label='Марка' defaultSelected={this.state.valueGraid} dataValues={this.state.valueGraidArr} whatYouCheck={this.iCheckIt}></Select>
             </DivSelectBlock>
             <DivButtonBlock className='d-flex align-items-center justify-content-start'>
               <ButtonCalc></ButtonCalc>

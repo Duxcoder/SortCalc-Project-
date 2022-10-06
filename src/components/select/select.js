@@ -32,15 +32,15 @@ margin: 6px 8px;
 export default class Select extends Component {
     constructor(props) {
       super(props);
-      this.state = {value: this.props.dataValues[0]};
+      this.state = {value: props.defaultSelected};
   
       this.handleChange = this.handleChange.bind(this);
     }
   
     handleChange(event) {
-      this.setState({value: event.target.value});
-    this.props.whatYouCheck(this.state.value);
-
+    this.setState({value: event.target.value});
+    this.props.whatYouCheck(event.target.value);
+console.log('передает', event.target.value) 
     }
   
     Options = ({data}) => {
@@ -51,7 +51,7 @@ export default class Select extends Component {
     }
     render() {
       return (
-        <form >
+        
         <DivSelect>
             <label>
                 <span>{this.props.label}:</span>
@@ -60,7 +60,7 @@ export default class Select extends Component {
                 </SelectStyle>
             </label>
         </DivSelect>
-        </form>
+       
       );
     }
   }

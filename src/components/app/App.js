@@ -53,6 +53,10 @@ constructor(props){
       aluminium: [
         {name: 'АЛ1', density: 2750, material: 'Алюминий'},
         {name: 'АЛ2', density: 2650, material: 'Алюминий'}
+      ],
+      aluminiums: [
+        {name: 'АЛ12', density: 2750, material: 'Алюмин'},
+        {name: 'АЛ121', density: 2650, material: 'Алюмин'}
       ]
     },
   }

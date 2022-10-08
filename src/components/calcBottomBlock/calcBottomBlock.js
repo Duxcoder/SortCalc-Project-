@@ -4,7 +4,7 @@ import Select from '../../components/select/select';
 import ButtonCalc from '../button/button';
 
 const DivBottomBlock = styled.div`
-margin-top:20px;
+margin: 30px 0;
 width:100%;
 height:auto;
 `
@@ -20,10 +20,29 @@ export default class CalcBottomBlock extends Component {
 constructor(props){
     super(props);
     this.state = {
-        valueMat: 'Сталь',
-        valueGraid: 'Сталь 45',
-        valueGraidArr: ['Сталь 45', 'Сталь Ст3', '8ХЛ']
+        valueMat: this.props.defaultGraid.material,
+        valueGraid: this.props.defaultGraid.name,
+        valueGraidArr: [],
+        valueDensity: this.props.defaultGraid.density
     }
+}
+createArr = (property) => {
+    let arr = []
+    for (let key in this.props.data) {
+        if ( this.props.data[key].includes(this.props.defaultGraid) ){
+            this.props.data[key].map (item => {
+                arr.push(item[property]); 
+                })
+        }
+    }
+return arr
+}
+
+componentDidMount( ){
+    this.setState({
+        valueGraidArr: this.createArr('name')
+    })
+    this.props.returnDensity(this.state.valueDensity)
 }
 
 createArrProps= (arr, option) => {
@@ -46,48 +65,48 @@ createArrMaterials = () => {
     })
 return newArray
 }
-componentWillUnmount (){
-    console.log(this.state)
-}
+
 iCheckIt = (valueSelect) => {
     const {data} = this.props;
     let objGradesMaterial;
-    
+    const findDensity = (inThis) => {
+        let val;
+        for (let key in this.props.data) {
+                this.props.data[key].map (item => {
+                  if (item.name === inThis) {
+                    this.setState({valueDensity: item.density})
+                    val = item.density;
+                  }
+                })
+            }
+            return val
+            
+    }
+
     if (this.createArrMaterials().includes(valueSelect)) {
         this.setState({valueMat : valueSelect});
 
         for (let key in data){
             if (data[key][0].material === valueSelect){ // поиск материла в базе со стейтом материала
                 objGradesMaterial = data[key] //объект с марками материала в стейте
-                console.log(objGradesMaterial)
             }
         }
         const arrGraides = objGradesMaterial.map(item => { //объект в массив марок материала стейта
             return item.name
         })
         this.setState({valueGraidArr : arrGraides})
-
         this.setState({valueGraid : arrGraides[0]})
-        console.log('change materials', this.state)
+        this.props.returnDensity(findDensity(arrGraides[0]))
+
     } else {
         this.setState({valueGraid : valueSelect})
-        console.log('change grades')
+        this.props.returnDensity(findDensity(valueSelect))
+        
     }
+
 }
 
-// getGrades = (property) => {
-// const {data} = this.props;
-// let arr = []
-//     for (let key in data){
-//         if (data[key][0].material === this.state.value){
-//             console.log(data[key][0].material, this.state.value, data[key])
-//             arr = data[key]  
-//         } 
-        
-//     }
-//     return this.createArrProps(arr, property)
 
-// }
 render(){
     return (<>
         <DivBottomBlock className="d-flex justify-content-center" >
@@ -103,7 +122,6 @@ render(){
           )
     
 }
-
 }
 
  

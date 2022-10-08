@@ -44,6 +44,8 @@ constructor(props){
     number: 0,
     data: {},
     res: 0,
+    density: 0,
+    square: 0,
     grades: {
       steels: [
         { name: 'Сталь Ст3', density: 7850, material: 'Сталь'},
@@ -68,15 +70,22 @@ btnList(){
 numberBtnActive =(id) => {
 return this.setState({number: +id})
 }
-
+returnDensity = (returnValue) => {
+  this.setState({density: returnValue})
+}
+returnSquare = (returnSquare) => {
+  this.setState({square: returnSquare})
+}
 ViewContent = () => {
-  const {number, grades} = this.state;
+  const {number, grades, grades: {steels}, square, density } = this.state;
    switch (number){
     case 0 : 
       return (
       <>
-      <Corner></Corner>
-      <CalcBottomBlock data ={grades}></CalcBottomBlock>
+      <Corner returnSquare={this.returnSquare}></Corner>
+      <CalcBottomBlock data ={grades} returnDensity={this.returnDensity} defaultGraid = {steels[0]}></CalcBottomBlock>
+      <span>{square * density}</span>
+
       </>
       )
 
@@ -106,7 +115,6 @@ ViewContent = () => {
   }
 }
   render(){
-
     return (
       <>
       <div className='bg-white container-fluid'></div>

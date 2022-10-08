@@ -77,20 +77,21 @@ export default class Corner extends Component {
             }
         }
     }
-    calcRes = () => {
+    calcSquare = () => {
         const {width, length, thickness, height} = this.state.values;
-        let res = ((thickness*width) + ((height-thickness)*thickness))* length * 7800;
-        return console.log(res)
+        let res = ((thickness*width) + ((height-thickness)*thickness))* length;
+        this.props.returnSquare(res);
       }
     getValue = (id) => {
+        this.calcSquare()
         return this.setState({values: { ...this.state.values, ...id}})
     }
+    
 render(){
     const {width, length, thickness, height} = this.state.names;
     
     return (
     <>
-        <this.calcRes></this.calcRes>
 
         <div className="d-flex justify-content-center align-items-center transition" >
             <BlockInput id ={'width'} name={width} className={'inputWidth'} valueNum={this.getValue}></BlockInput>

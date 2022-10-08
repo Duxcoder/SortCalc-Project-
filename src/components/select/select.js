@@ -40,12 +40,11 @@ export default class Select extends Component {
     handleChange(event) {
     this.setState({value: event.target.value});
     this.props.whatYouCheck(event.target.value);
-console.log('передает', event.target.value) 
     }
   
     Options = ({data}) => {
         const arr = data.map((item, i) => {
-           return <option key={i} value={item.i}>{item}</option>
+           return <option key={i} value={item}>{item}</option>
         })
         return arr
     }

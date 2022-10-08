@@ -46,6 +46,9 @@ createArrMaterials = () => {
     })
 return newArray
 }
+componentWillUnmount (){
+    console.log(this.state)
+}
 iCheckIt = (valueSelect) => {
     const {data} = this.props;
     let objGradesMaterial;
@@ -54,7 +57,7 @@ iCheckIt = (valueSelect) => {
         this.setState({valueMat : valueSelect});
 
         for (let key in data){
-            if (data[key][0].material === this.state.valueMat){ // поиск материла в базе со стейтом материала
+            if (data[key][0].material === valueSelect){ // поиск материла в базе со стейтом материала
                 objGradesMaterial = data[key] //объект с марками материала в стейте
                 console.log(objGradesMaterial)
             }
@@ -70,8 +73,6 @@ iCheckIt = (valueSelect) => {
         this.setState({valueGraid : valueSelect})
         console.log('change grades')
     }
-    
-
 }
 
 // getGrades = (property) => {
@@ -80,7 +81,7 @@ iCheckIt = (valueSelect) => {
 //     for (let key in data){
 //         if (data[key][0].material === this.state.value){
 //             console.log(data[key][0].material, this.state.value, data[key])
-//             arr = data[key]
+//             arr = data[key]  
 //         } 
         
 //     }

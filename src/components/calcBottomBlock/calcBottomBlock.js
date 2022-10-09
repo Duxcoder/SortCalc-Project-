@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Select from '../../components/select/select';
 import ButtonCalc from '../button/button';
+import Switcher from "../switcher/Switcher";
 
 const DivBottomBlock = styled.div`
 margin: 30px 0;
@@ -116,6 +117,7 @@ render(){
             </DivSelectBlock>
             <DivButtonBlock className='d-flex align-items-center justify-content-start'>
               <ButtonCalc></ButtonCalc>
+            <Switcher></Switcher>
             </DivButtonBlock>
           </DivBottomBlock>
           </>

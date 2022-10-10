@@ -45,17 +45,20 @@ const SpanText = styled.span`
 `
 
 class BlockInput extends Component {
+   
     clickChange = (event) => {
         const arr = {}
-        arr[event.target.name] = event.target.value;
+        arr[event.target.name] = +event.target.value;
         this.props.valueNum(arr)
     }
+
+
 render(){
     const {name, id, className} = this.props;
     return (
     <DivInput className={className}>
         <SpanText>{name}</SpanText>
-        <Input type="text" onChange={this.clickChange} name={id} autoСomplete="off" placeholder="0 см"></Input>
+        <Input type="number" onChange={this.clickChange} name={id} autoСomplete="off" placeholder="0 см"></Input>
     </DivInput>)
 }}
 
@@ -79,12 +82,14 @@ export default class Corner extends Component {
     }
     calcSquare = () => {
         const {width, length, thickness, height} = this.state.values;
-        let res = ((thickness*width) + ((height-thickness)*thickness))* length;
+        let res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) ) * length;
         this.props.returnSquare(res);
+        console.log(this.state.values)
       }
     getValue = (id) => {
-        this.calcSquare()
-        return this.setState({values: { ...this.state.values, ...id}})
+       this.setState({values: { ...this.state.values, ...id}}, () => {this.calcSquare()})
+       
+       
     }
     
 render(){
@@ -92,7 +97,6 @@ render(){
     
     return (
     <>
-
         <div className="d-flex justify-content-center align-items-center transition" >
             <BlockInput id ={'width'} name={width} className={'inputWidth'} valueNum={this.getValue}></BlockInput>
             <BlockInput id ={'length'} name={length} className={'inputLength'} valueNum={this.getValue}></BlockInput>

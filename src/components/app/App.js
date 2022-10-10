@@ -83,9 +83,14 @@ ViewContent = () => {
       return (
       <>
       <Corner returnSquare={this.returnSquare}></Corner>
-      <CalcBottomBlock data ={grades} returnDensity={this.returnDensity} defaultGraid = {steels[0]}></CalcBottomBlock>
-      <span>{square * density}</span>
-
+      <CalcBottomBlock 
+        data ={grades} 
+        returnDensity={this.returnDensity} 
+        defaultGraid = {steels[0]}
+        result = {`${(square * density).toFixed(2)} кг`}
+        labelForResult = {'Вес: '}
+        >
+        </CalcBottomBlock>
       </>
       )
 

@@ -116,7 +116,7 @@ render(){
               <Select label='Марка' defaultSelected={this.state.valueGraid} dataValues={this.state.valueGraidArr} whatYouCheck={this.iCheckIt}></Select>
             </DivSelectBlock>
             <DivButtonBlock className='d-flex align-items-center justify-content-start'>
-              <ButtonCalc></ButtonCalc>
+              <ButtonCalc label={this.props.labelForResult} result ={this.props.result}></ButtonCalc>
             <Switcher></Switcher>
             </DivButtonBlock>
           </DivBottomBlock>

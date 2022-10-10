@@ -40,12 +40,12 @@ color:#B0CDBD;
 }
 `
 
-const ButtonCalc = () => {
+const ButtonCalc = (props) => {
 
 return (
     <>
         <Button>
-            Вес: 22220 кг
+            {props.label} {props.result}
             <DivZeroing><ArrowRepeat width="24" height="24"></ArrowRepeat></DivZeroing>
         </Button> 
         

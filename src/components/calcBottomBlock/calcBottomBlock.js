@@ -117,7 +117,7 @@ render(){
             </DivSelectBlock>
             <DivButtonBlock className='d-flex align-items-center justify-content-start'>
               <ButtonCalc label={this.props.labelForResult} result ={this.props.result}></ButtonCalc>
-            <Switcher></Switcher>
+            <Switcher weightOn={this.props.weightOn}></Switcher>
             </DivButtonBlock>
           </DivBottomBlock>
           </>

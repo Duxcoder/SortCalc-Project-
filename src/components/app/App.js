@@ -41,11 +41,12 @@ export default class App extends Component {
 constructor(props){
   super(props)
   this.state = {
+    weightOn: true,
     number: 0,
     data: {},
     res: 0,
     density: 0,
-    square: 0,
+    volume: 0,
     grades: {
       steels: [
         { name: 'Сталь Ст3', density: 7850, material: 'Сталь'},
@@ -73,27 +74,31 @@ return this.setState({number: +id})
 returnDensity = (returnValue) => {
   this.setState({density: returnValue})
 }
-returnSquare = (returnSquare) => {
-  this.setState({square: returnSquare})
+returnVolume = (returnVolume) => {
+  this.setState({volume: returnVolume})
+}
+
+postResult = (den, resInCorner) => {
+  return this.state.weightOn ? `${(den * resInCorner).toFixed(2)} кг` : `${(resInCorner / den).toFixed(2)} м`
 }
 ViewContent = () => {
-  const {number, grades, grades: {steels}, square, density } = this.state;
+  const {number, grades, grades: {steels}, volume, density } = this.state;
    switch (number){
     case 0 : 
       return (
       <>
-      <Corner returnSquare={this.returnSquare}></Corner>
+      <Corner weightOn = {this.state.weightOn} returnVolume={this.returnVolume}></Corner>
       <CalcBottomBlock 
         data ={grades} 
         returnDensity={this.returnDensity} 
         defaultGraid = {steels[0]}
-        result = {`${(square * density).toFixed(2)} кг`}
+        result = {this.postResult(density, volume)}
         labelForResult = {'Вес: '}
+        weightOn = {this.weightOn}
         >
         </CalcBottomBlock>
       </>
       )
-
     case 1 : 
       return <p>This is 1</p>
       
@@ -118,6 +123,9 @@ ViewContent = () => {
     default:
       console.log('Error, page not found')
   }
+}
+weightOn = (value) => {
+  this.setState({weightOn: value})
 }
   render(){
     return (

@@ -47,7 +47,7 @@ const SpanText = styled.span`
 class BlockInput extends Component {
    
     clickChange = (event) => {
-        const arr = {}
+        const arr = {};
         arr[event.target.name] = +event.target.value;
         this.props.valueNum(arr)
     }
@@ -58,7 +58,7 @@ render(){
     return (
     <DivInput className={className}>
         <SpanText>{name}</SpanText>
-        <Input type="number" onChange={this.clickChange} name={id} autoСomplete="off" placeholder="0 см"></Input>
+        <Input type="number" onInput={this.clickChange} name={id} autoСomplete="off" placeholder={this.props.placeholder}></Input>
     </DivInput>)
 }}
 
@@ -67,23 +67,39 @@ export default class Corner extends Component {
     constructor(props){
         super(props);
         this.state = {
-            names: { width: 'Ширина',
-                    length: 'Длина',
-                    thickness: 'Толщина',
-                    height: 'Высота'
+            weightOn: true,
+            names: { width: 'Ширина, см',
+                    length: 'Длина, м',
+                    thickness: 'Толщина, см',
+                    height: 'Высота, см',
+                    weight: 'Вес, кг'
             },
             values: {
                     width: 0,
                     length: 0,
                     thickness: 0,
-                    height: 0
+                    height: 0,
+                    weight: 0
             }
         }
     }
+    componentDidUpdate(prevProps){
+        if (this.props.weightOn !== prevProps.weightOn){
+        console.log('update')
+      this.setState({weightOn: this.props.weightOn});
+      this.calcSquare()}
+
+    }
+
     calcSquare = () => {
-        const {width, length, thickness, height} = this.state.values;
-        let res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) ) * length;
-        this.props.returnSquare(res);
+        const {width, length, thickness, height, weight} = this.state.values;
+        let res;
+        if (this.props.weightOn) {
+            res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) ) * length;
+        } else {
+            res = weight/(((thickness*width) + ((height-thickness)*thickness)) * (1/1000000));
+        }
+        this.props.returnVolume(res);
         console.log(this.state.values)
       }
     getValue = (id) => {
@@ -91,17 +107,24 @@ export default class Corner extends Component {
        
        
     }
-    
+    RenderInput = (props) => {
+        const isWeightOn = props.weightOn;
+        if (isWeightOn) {
+          return  <BlockInput id ={'length'} name={this.state.names.length} className={'inputLength'} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
+        } else {
+          return  <BlockInput id ={'weight'} name={this.state.names.weight} className={'inputLength'} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
+        }
+
+    }
 render(){
-    const {width, length, thickness, height} = this.state.names;
-    
+    const {width, thickness, height} = this.state.names;
     return (
     <>
         <div className="d-flex justify-content-center align-items-center transition" >
-            <BlockInput id ={'width'} name={width} className={'inputWidth'} valueNum={this.getValue}></BlockInput>
-            <BlockInput id ={'length'} name={length} className={'inputLength'} valueNum={this.getValue}></BlockInput>
-            <BlockInput id ={'thickness'} name={thickness} className={'inputThickness'} valueNum={this.getValue}></BlockInput>
-            <BlockInput id ={'height'} name={height} className={'inputHeight'} valueNum={this.getValue}></BlockInput>
+            <this.RenderInput weightOn={this.state.weightOn}></this.RenderInput>
+            <BlockInput id ={'width'} name={width} className={'inputWidth'} valueNum={this.getValue} placeholder={'0 см'}></BlockInput>
+            <BlockInput id ={'thickness'} name={thickness} className={'inputThickness'} valueNum={this.getValue} placeholder={'0 см'}></BlockInput>
+            <BlockInput id ={'height'} name={height} className={'inputHeight'} valueNum={this.getValue} placeholder={'0 см'}></BlockInput>
             <YourSvg className="svg"></YourSvg>
         </div>
     </>

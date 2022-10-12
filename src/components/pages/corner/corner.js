@@ -85,8 +85,9 @@ export default class Corner extends Component {
     }
     componentDidUpdate(prevProps){
         if (this.props.weightOn !== prevProps.weightOn){
-        console.log('update')
-      this.setState({weightOn: this.props.weightOn});
+        
+      this.setState({weightOn: this.props.weightOn}, () => {console.log(this.state)});
+      this.setState({values: {...this.state.values, weight: this.state.values.length}}, () => {this.calcSquare()});
       this.calcSquare()}
 
     }
@@ -98,9 +99,9 @@ export default class Corner extends Component {
             res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) ) * length;
         } else {
             res = weight/(((thickness*width) + ((height-thickness)*thickness)) * (1/1000000));
+            if (isNaN(res)) {res = 0 } 
         }
         this.props.returnVolume(res);
-        console.log(this.state.values)
       }
     getValue = (id) => {
        this.setState({values: { ...this.state.values, ...id}}, () => {this.calcSquare()})

@@ -77,9 +77,15 @@ returnDensity = (returnValue) => {
 returnVolume = (returnVolume) => {
   this.setState({volume: returnVolume})
 }
-
+isInfinity (item){ // вывод 0 вместо infinity и минусовых значений
+  if (!isFinite(item) || item < 0) {
+    return item = 0
+  } else {
+    return item
+  }
+}
 postResult = (den, resInCorner) => {
-  return this.state.weightOn ? `${(den * resInCorner).toFixed(2)} кг` : `${(resInCorner / den).toFixed(2)} м`
+  return this.state.weightOn ? `${(this.isInfinity(den * resInCorner)).toFixed(2)} кг` : `${this.isInfinity((resInCorner / den)).toFixed(2)} м`
 }
 ViewContent = () => {
   const {number, grades, grades: {steels}, volume, density } = this.state;
@@ -91,9 +97,9 @@ ViewContent = () => {
       <CalcBottomBlock 
         data ={grades} 
         returnDensity={this.returnDensity} 
-        defaultGraid = {steels[0]}
+        defaultGraid = {steels[0]} 
         result = {this.postResult(density, volume)}
-        labelForResult = {'Вес: '}
+        labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
         weightOn = {this.weightOn}
         >
         </CalcBottomBlock>

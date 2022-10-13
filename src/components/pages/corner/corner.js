@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { ReactComponent as YourSvg } from './corner.svg';
 import styled from 'styled-components';
-import './corner.css';
+import styles from './corner.module.css';
 const Input = styled.input`
     display:inline;
     position:relative;
@@ -58,7 +58,7 @@ render(){
     return (
     <DivInput className={className}>
         <SpanText>{name}</SpanText>
-        <Input type="number" onInput={this.clickChange} name={id} autoСomplete="off" placeholder={this.props.placeholder}></Input>
+        <Input type="number" onInput={this.clickChange} name={id} autoСomplete="off" min="0" placeholder={this.props.placeholder}></Input>
     </DivInput>)
 }}
 
@@ -68,10 +68,10 @@ export default class Corner extends Component {
         super(props);
         this.state = {
             weightOn: true,
-            names: { width: 'Ширина, см',
+            names: { width: 'Ширина, мм',
                     length: 'Длина, м',
-                    thickness: 'Толщина, см',
-                    height: 'Высота, см',
+                    thickness: 'Толщина, мм',
+                    height: 'Высота, мм',
                     weight: 'Вес, кг'
             },
             values: {
@@ -111,9 +111,9 @@ export default class Corner extends Component {
     RenderInput = (props) => {
         const isWeightOn = props.weightOn;
         if (isWeightOn) {
-          return  <BlockInput id ={'length'} name={this.state.names.length} className={'inputLength'} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
+          return  <BlockInput id ={'length'} name={this.state.names.length} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
         } else {
-          return  <BlockInput id ={'weight'} name={this.state.names.weight} className={'inputLength'} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
+          return  <BlockInput id ={'weight'} name={this.state.names.weight} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
         }
 
     }
@@ -123,10 +123,10 @@ render(){
     <>
         <div className="d-flex justify-content-center align-items-center transition" >
             <this.RenderInput weightOn={this.state.weightOn}></this.RenderInput>
-            <BlockInput id ={'width'} name={width} className={'inputWidth'} valueNum={this.getValue} placeholder={'0 см'}></BlockInput>
-            <BlockInput id ={'thickness'} name={thickness} className={'inputThickness'} valueNum={this.getValue} placeholder={'0 см'}></BlockInput>
-            <BlockInput id ={'height'} name={height} className={'inputHeight'} valueNum={this.getValue} placeholder={'0 см'}></BlockInput>
-            <YourSvg className="svg"></YourSvg>
+            <BlockInput id ={'width'} name={width} className={styles.inputWidth} valueNum={this.getValue} placeholder={'0 мм'}></BlockInput>
+            <BlockInput id ={'thickness'} name={thickness} className={styles.inputThickness} valueNum={this.getValue} placeholder={'0 мм'}></BlockInput>
+            <BlockInput id ={'height'} name={height} className={styles.inputHeight} valueNum={this.getValue} placeholder={'0 мм'}></BlockInput>
+            <YourSvg className={styles.svg}></YourSvg>
         </div>
     </>
     )

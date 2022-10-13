@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {Container, Row, Col} from 'react-bootstrap';
 import ButtonsList from '../buttonsList/buttonsList';
 import Corner from '../pages/corner/corner';
+import Sheet from '../pages/sheet/sheet';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 
 const Logo = styled.div`
@@ -84,8 +85,8 @@ isInfinity (item){ // вывод 0 вместо infinity и минусовых �
     return item
   }
 }
-postResult = (den, resInCorner) => {
-  return this.state.weightOn ? `${(this.isInfinity(den * resInCorner)).toFixed(2)} кг` : `${this.isInfinity((resInCorner / den)).toFixed(2)} м`
+postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
+  return this.state.weightOn ? `${(this.isInfinity(den * resInPage)).toFixed(weightToFix)} ${weightUoM}` : `${this.isInfinity((resInPage / den)).toFixed(resToFix)} ${resUoM}`
 }
 ViewContent = () => {
   const {number, grades, grades: {steels}, volume, density } = this.state;
@@ -98,7 +99,7 @@ ViewContent = () => {
         data ={grades} 
         returnDensity={this.returnDensity} 
         defaultGraid = {steels[0]} 
-        result = {this.postResult(density, volume)}
+        result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
         labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
         weightOn = {this.weightOn}
         >
@@ -106,7 +107,20 @@ ViewContent = () => {
       </>
       )
     case 1 : 
-      return <p>This is 1</p>
+      return (
+        <>
+        <Sheet weightOn = {this.state.weightOn} returnVolume={this.returnVolume}></Sheet>
+        <CalcBottomBlock 
+        data ={grades} 
+        returnDensity={this.returnDensity} 
+        defaultGraid = {steels[0]} 
+        result = {this.postResult(density, volume, 'кг', 'мм', 2, 0)}
+        labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+        weightOn = {this.weightOn}
+        >
+        </CalcBottomBlock>
+        </>
+      )
       
     case 2:
       return <p>This is 2</p>

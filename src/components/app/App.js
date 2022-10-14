@@ -42,6 +42,7 @@ export default class App extends Component {
 constructor(props){
   super(props)
   this.state = {
+    btnReload: false,
     weightOn: true,
     number: 0,
     data: {},
@@ -86,7 +87,24 @@ isInfinity (item){ // вывод 0 вместо infinity и минусовых �
   }
 }
 postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
-  return this.state.weightOn ? `${(this.isInfinity(den * resInPage)).toFixed(weightToFix)} ${weightUoM}` : `${this.isInfinity((resInPage / den)).toFixed(resToFix)} ${resUoM}`
+  let res;
+  if (this.state.weightOn) {
+    res = (this.isInfinity(den * resInPage)).toFixed(weightToFix)
+    return res > 10e+6 ? `более 10 тыс т.` : `${res} ${weightUoM}`
+  } else {
+    res = `${this.isInfinity((resInPage / den)).toFixed(resToFix)}`
+    return res > 10e+5 ? `более 1000 км` : `${res} ${resUoM}`
+  }
+  
+}
+clearInputs = (boolean) => {
+  if (boolean) {
+    const numberNow = this.state.number
+    this.setState({number: 100}, () => {this.setState({number: numberNow})})
+  }
+}
+activeReloadBtn = (boolean) => {
+  this.setState({btnReload: boolean})
 }
 ViewContent = () => {
   const {number, grades, grades: {steels}, volume, density } = this.state;
@@ -94,8 +112,10 @@ ViewContent = () => {
     case 0 : 
       return (
       <>
-      <Corner weightOn = {this.state.weightOn} returnVolume={this.returnVolume}></Corner>
+      <Corner weightOn = {this.state.weightOn} returnVolume={this.returnVolume} activeReloadBtn={this.activeReloadBtn}></Corner>
       <CalcBottomBlock 
+        activeReloadBtn = {this.state.btnReload}
+        clearInputs ={this.clearInputs}
         data ={grades} 
         returnDensity={this.returnDensity} 
         defaultGraid = {steels[0]} 
@@ -109,8 +129,10 @@ ViewContent = () => {
     case 1 : 
       return (
         <>
-        <Sheet weightOn = {this.state.weightOn} returnVolume={this.returnVolume}></Sheet>
+        <Sheet weightOn = {this.state.weightOn} returnVolume={this.returnVolume} activeReloadBtn={this.activeReloadBtn}></Sheet>
         <CalcBottomBlock 
+        activeReloadBtn = {this.state.btnReload}
+        clearInputs = {this.clearInputs}
         data ={grades} 
         returnDensity={this.returnDensity} 
         defaultGraid = {steels[0]} 
@@ -140,8 +162,11 @@ ViewContent = () => {
     case 7 :
       return <p>This is 7</p>
     
-    default:
-      console.log('Error, page not found')
+    case 100 :
+      return console.log('Reload')
+    
+    default: 
+      return console.log('Error loaded page')
   }
 }
 weightOn = (value) => {

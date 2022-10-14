@@ -1,25 +1,26 @@
 .inputHeight {
-    margin-bottom: 86px;
-    margin-right: 374px;
+    margin-bottom: 140px;
+    margin-right: 450px;
 }
 
 .inputWidth{
-    margin-top: 270px;
-    margin-left: 218px;
+    margin-top: 374px;
+    margin-left: 144px;
 }
 
 .inputThickness {
-    margin-bottom: 108px;
-    margin-left: 274px;
+    margin-bottom: 140px;
+    margin-left: 364px;
 }
 
 .inputLength{
-    margin-bottom: 260px;
-    margin-left: 274px;
+    margin-bottom: 364px;
+    margin-right: 450px;
 }
 
 .svg {
     display: absolute;
+    margin-top: 60px;
 }
   
 input[type="number"]::-webkit-outer-spin-button,

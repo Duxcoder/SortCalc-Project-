@@ -116,7 +116,7 @@ render(){
               <Select label='Марка' defaultSelected={this.state.valueGraid} dataValues={this.state.valueGraidArr} whatYouCheck={this.iCheckIt}></Select>
             </DivSelectBlock>
             <DivButtonBlock className='d-flex align-items-center justify-content-start'>
-              <ButtonCalc label={this.props.labelForResult} result ={this.props.result}></ButtonCalc>
+              <ButtonCalc label={this.props.labelForResult} result ={this.props.result} clearInputs={this.props.clearInputs} btnVisible={this.props.activeReloadBtn}></ButtonCalc>
             <Switcher weightOn={this.props.weightOn}></Switcher>
             </DivButtonBlock>
           </DivBottomBlock>
@@ -125,5 +125,3 @@ render(){
     
 }
 }
-
- 

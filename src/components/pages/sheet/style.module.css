@@ -13,6 +13,15 @@
     margin-left: 110px;
 }
 
+.divWeight{
+    display: block;
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    margin-bottom: 180px;
+    margin-right: 426px;
+}
+
 .svg {
     display: absolute;
     margin-right:90px;

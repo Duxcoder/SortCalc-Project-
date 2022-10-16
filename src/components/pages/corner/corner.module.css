@@ -18,6 +18,19 @@
     margin-right: 450px;
 }
 
+.inputWeight{
+    margin-top: 60px;
+    margin-right: 450px;
+}
+.inputLock{
+    border: solid 1px #eee !important;
+    background-color: rgb(227, 227, 227) !important;
+}
+.inputLock:focus{
+    outline: none !important;
+    background-color: none !important;
+}
+
 .svg {
     display: absolute;
     margin-top: 60px;

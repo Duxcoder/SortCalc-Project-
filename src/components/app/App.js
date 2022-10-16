@@ -7,16 +7,23 @@ import ButtonsList from '../buttonsList/buttonsList';
 import Corner from '../pages/corner/corner';
 import Sheet from '../pages/sheet/sheet';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
-
+import {ReactComponent as DesignElement} from './img/designElement.svg'
+const Line = styled.div`
+display: block;
+min-width: 100px;
+max-width: 500px;
+height: 1px;
+width:100%;
+margin: 0 50px;
+background-color:black;
+`
 const Logo = styled.div`
-width: 127px;
-height: 44px;
-margin-top: 20px;
-font-family: 'Kelly Slab';
+width:auto;
+font-family: 'Michroma';
 font-style: normal;
 font-weight: 400;
-font-size: 36px;
-line-height: 44px;
+font-size: 28px;
+line-height: 28px;
 color: #000000;`
 
 const HeaderTitleBlock = styled.div`
@@ -24,9 +31,10 @@ width: 100%;
 height: auto;
 display:block;
 margin: 0px 0px 20px 0px;
-padding: 12px 20px;
-background-color: #755F5F;
-border-radius: 10px 10px 0 0;
+padding: 18px 20px;
+background-color: #224952;
+border-radius: 4px;
+
 `
 const DivButtons = styled.div`
 `
@@ -67,7 +75,7 @@ constructor(props){
   }
 }
 btnList(){
-  const btnLists = ['Уголок', 'Лист', 'Труба', 'Круг', 'Швеллер', 'Балка/Двутавр', 'Квадрат', 'Труба профильная']
+  const btnLists = ['УГОЛОК', 'ЛИСТ', 'ТРУБА', 'КРУГ', 'ШВЕЛЛЕР', 'БАЛКА/ДВУТАВР', 'КВАДРАТ', 'ТРУБА ПРОФИЛЬНАЯ']
   return btnLists
 }
 numberBtnActive =(id) => {
@@ -112,7 +120,11 @@ ViewContent = () => {
     case 0 : 
       return (
       <>
-      <Corner weightOn = {this.state.weightOn} returnVolume={this.returnVolume} activeReloadBtn={this.activeReloadBtn}></Corner>
+      <Corner weightOn = {this.state.weightOn} 
+              returnVolume={this.returnVolume} 
+              activeReloadBtn={this.activeReloadBtn}
+              result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}>
+      </Corner>
       <CalcBottomBlock 
         activeReloadBtn = {this.state.btnReload}
         clearInputs ={this.clearInputs}
@@ -175,27 +187,34 @@ weightOn = (value) => {
   render(){
     return (
       <>
-      <div className='bg-white container-fluid'></div>
-        <Container className='d-flex align-items-center flex-column length'>
-          <Row className="head container-fluid">
-            <Col lg={2}><Logo>SortCalc</Logo></Col>
-            <Col lg={{ span: 8, offset: 2 }}></Col>
+      
+        <div className='d-flex align-items-center flex-column length container-fluid'>
+          <Row className="head container-fluid ">
+            <Col lg={12} className="d-flex justify-content-center align-items-center">
+              <Line/><Logo>SORT/CALC</Logo><Line/>
+              <span className='title'>КАЛЬКУЛЯТОР МЕТАЛЛОПРОКАТА</span>
+           </Col>
           </Row>
+          <Row className="container-fluid ">
+      <DesignElement className='designElement'  />
+      <h1 className='header'>КОНСТРУКТОР МЕТАЛЛОПРОКАТА</h1>
+
+</Row>
+         
           <Row>
-            <Col className='d-flex align-items-start flex-column'>
+            <Col lg={{ span: 1, offset: 1 }} className='d-flex align-items-start flex-column'>
               <DivButtons >
                 <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList()}></ButtonsList>
               </DivButtons>
             </Col> 
-            <Col lg={{ span: 9 }} className="main">
+            <Col lg={{ span: 6, offset: 2}} className="main">
               <HeaderTitleBlock>
-                <h1>Калькулятор металлопроката</h1>
-                <span className='pageName'>{this.btnList()[this.state.number]}</span>
+                <span className='pageName'>ТИП ПРОКАТА: {this.btnList()[this.state.number]}</span>
               </HeaderTitleBlock> 
               <this.ViewContent></this.ViewContent>
             </Col>
           </Row>
-        </Container>
+        </div>
         <div className='mt-auto w-100 container-fluid'>
             <Footer><span className='footerText'>ⓒ 2022 Developed with React by <a target="_blank" href='https://github.com/Duxcoder'>Duxcoder</a></span></Footer>
           </div>

@@ -63,7 +63,12 @@ export default class Corner extends Component {
         if (isWeightOn) {
           return  <BlockInput id ={'length'} name={this.state.names.length} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
         } else {
-          return  <BlockInput id ={'weight'} name={this.state.names.weight} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
+
+          return ( <>
+          <BlockInput readOnly classNameForLocked={styles.inputLock} id ={'length'} name={this.state.names.length} className={styles.inputLength} result={this.props.result} placeholder={''}></BlockInput> 
+          <BlockInput id ={'weight'} name={this.state.names.weight} className={styles.inputWeight} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
+          </>
+          )
         }
 
     }

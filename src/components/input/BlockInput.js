@@ -64,16 +64,30 @@ export default class BlockInput extends Component {
                 event.preventDefault() 
             }
     }
+    ViewInput = () => {
+        const { id, readOnly, result, classNameForLocked, value} = this.props;
+        if (!readOnly) {
+
+            if (value) {
+                return <Input type="number" value={value} onKeyDown= {this.clearPlusAndMinus} onInput={this.clickChange} onWheel = {this.scrollOff} name={id} autoСomplete="off" min="0" placeholder={this.props.placeholder}></Input>
+            }
+            else {
+                return <Input type="number"  onKeyDown= {this.clearPlusAndMinus} onInput={this.clickChange} onWheel = {this.scrollOff} name={id} autoСomplete="off" min="0" placeholder={this.props.placeholder}></Input>
+            }
+
+        } else {
+            return  <Input readOnly={readOnly} className={classNameForLocked} value = {result} type="text" name={id} autoСomplete="off" placeholder={this.props.placeholder}></Input>
+
+        }
+    }
 render(){
-console.log(this.props.className, this.props.classNameForLocked)
 
     const {name, id, className, readOnly, result, classNameForLocked} = this.props;
     return (
     <DivInput className={className}>
         <SpanText>{name}</SpanText>
-        {!readOnly ?
-        <Input type="number" onKeyDown= {this.clearPlusAndMinus} onInput={this.clickChange} onWheel = {this.scrollOff} name={id} autoСomplete="off" min="0" placeholder={this.props.placeholder}></Input>
-        : <Input readOnly={readOnly} className={classNameForLocked} value = {result} type="text" name={id} autoСomplete="off" placeholder={this.props.placeholder}></Input>
-        }
+        <this.ViewInput></this.ViewInput>
+       
+        
     </DivInput>)
 }}

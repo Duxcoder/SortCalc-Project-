@@ -37,6 +37,7 @@ border-radius: 4px;
 
 `
 const DivButtons = styled.div`
+
 `
 const Footer = styled.div`
 display:block;
@@ -109,6 +110,7 @@ clearInputs = (boolean) => {
   if (boolean) {
     const numberNow = this.state.number
     this.setState({number: 100}, () => {this.setState({number: numberNow})})
+    this.setState({weightOn: true})
   }
 }
 activeReloadBtn = (boolean) => {
@@ -121,15 +123,16 @@ ViewContent = () => {
       return (
       <>
       <Corner weightOn = {this.state.weightOn} 
-              returnVolume={this.returnVolume} 
-              activeReloadBtn={this.activeReloadBtn}
-              result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}>
+              returnVolume = {this.returnVolume} 
+              activeReloadBtn = {this.activeReloadBtn}
+              result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+              >
       </Corner>
       <CalcBottomBlock 
         activeReloadBtn = {this.state.btnReload}
-        clearInputs ={this.clearInputs}
-        data ={grades} 
-        returnDensity={this.returnDensity} 
+        clearInputs = {this.clearInputs}
+        data = {grades} 
+        returnDensity = {this.returnDensity} 
         defaultGraid = {steels[0]} 
         result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
         labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
@@ -200,20 +203,19 @@ weightOn = (value) => {
       <h1 className='header'>КОНСТРУКТОР МЕТАЛЛОПРОКАТА</h1>
 
 </Row>
-         
-          <Row>
-            <Col lg={{ span: 1, offset: 1 }} className='d-flex align-items-start flex-column'>
-              <DivButtons >
+         <Container>
+          <Row className="justify-content-md-center">
+            <Col xl={{ span: 3 }} className='d-flex align-items-start flex-column'>
                 <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList()}></ButtonsList>
-              </DivButtons>
             </Col> 
-            <Col lg={{ span: 6, offset: 2}} className="main">
+            <Col xl={{ span: 8 }} className="main">
               <HeaderTitleBlock>
                 <span className='pageName'>ТИП ПРОКАТА: {this.btnList()[this.state.number]}</span>
               </HeaderTitleBlock> 
               <this.ViewContent></this.ViewContent>
             </Col>
           </Row>
+          </Container>
         </div>
         <div className='mt-auto w-100 container-fluid'>
             <Footer><span className='footerText'>ⓒ 2022 Developed with React by <a target="_blank" href='https://github.com/Duxcoder'>Duxcoder</a></span></Footer>

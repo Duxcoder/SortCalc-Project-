@@ -27,7 +27,7 @@ export default class Corner extends Component {
     componentDidUpdate = (prevProps) => {
         if (this.props.weightOn !== prevProps.weightOn){
       this.setState({weightOn: this.props.weightOn}, () => {console.log(this.state)});
-      this.setState({values: {...this.state.values, weight: this.state.values.length, length: this.state.values.weight}}, () => {this.calcSquare()});
+      this.setState({values: {...this.state.values, weight: this.state.values.weight, length: this.state.values.length}}, () => {this.calcSquare()});
       this.calcSquare()}
 
     }
@@ -61,12 +61,12 @@ export default class Corner extends Component {
     RenderInput = (props) => {
         const isWeightOn = props.weightOn;
         if (isWeightOn) {
-          return  <BlockInput id ={'length'} name={this.state.names.length} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
+          return  <BlockInput id ={'length'} value = {this.state.values.length} name={this.state.names.length} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
         } else {
 
           return ( <>
           <BlockInput readOnly classNameForLocked={styles.inputLock} id ={'length'} name={this.state.names.length} className={styles.inputLength} result={this.props.result} placeholder={''}></BlockInput> 
-          <BlockInput id ={'weight'} name={this.state.names.weight} className={styles.inputWeight} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
+          <BlockInput value = {this.state.values.weight} id ={'weight'} name={this.state.names.weight} className={styles.inputWeight} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
           </>
           )
         }

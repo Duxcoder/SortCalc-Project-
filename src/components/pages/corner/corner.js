@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { ReactComponent as YourSvg } from './corner.svg';
 import styles from './corner.module.css';
 import BlockInput from "../../input/BlockInput";
+import { Container } from "react-bootstrap";
+import {ReactComponent as ElemUp} from './elemUp.svg'
+import {ReactComponent as ElemDown} from './elemDown.svg'
 
 export default class Corner extends Component {
     constructor(props){
@@ -39,9 +42,9 @@ export default class Corner extends Component {
         const {width, length, thickness, height, weight} = this.state.values;
         let res;
         if (this.props.weightOn) {
-            res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) ) * length;
+            res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) * 1.01 ) * length;
         } else {
-            res = weight/(((thickness*width) + ((height-thickness)*thickness)) * (1/1000000));
+            res = weight/(((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) * 1.01);
             if (isNaN(res)) {res = 0 } 
         }
         this.props.returnVolume(res);
@@ -76,7 +79,18 @@ render(){
     const {width, thickness, height} = this.state.names;
     return (
     <>
+    
+    <div className={styles.divGostBlock}>
+        <div className={styles.btnBlock}>
+            <ElemUp className={styles.elemUp}></ElemUp>
+            <div className={styles.btnGost}>выбор</div>
+            <ElemDown className={styles.elemDown}></ElemDown>
+        </div>
+        <div className={styles.bgElem}></div>
+     </div>
+
         <div className="d-flex justify-content-center align-items-center transition" >
+           
             <this.RenderInput weightOn={this.props.weightOn}></this.RenderInput>
             <BlockInput id ={'width'} name={width} className={styles.inputWidth} valueNum={this.getValue} placeholder={'0 мм'}></BlockInput>
             <BlockInput id ={'thickness'} name={thickness} className={styles.inputThickness} valueNum={this.getValue} placeholder={'0 мм'}></BlockInput>
@@ -87,5 +101,4 @@ render(){
     )
 }  
 }
-
 

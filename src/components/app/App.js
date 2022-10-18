@@ -58,6 +58,12 @@ constructor(props){
     res: 0,
     density: 0,
     volume: 0,
+    gosts:
+    {
+      corner: [
+        {name: `#2` }
+      ]
+    },
     grades: {
       steels: [
         { name: 'Сталь Ст3', density: 7850, material: 'Сталь'},
@@ -97,6 +103,7 @@ isInfinity (item){ // вывод 0 вместо infinity и минусовых �
 }
 postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
   let res;
+  console.log(resInPage)
   if (this.state.weightOn) {
     res = (this.isInfinity(den * resInPage)).toFixed(weightToFix)
     return res > 10e+6 ? `более 10 тыс т.` : `${res} ${weightUoM}`
@@ -208,7 +215,7 @@ weightOn = (value) => {
             <Col xl={{ span: 3 }} className='d-flex align-items-start flex-column'>
                 <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList()}></ButtonsList>
             </Col> 
-            <Col xl={{ span: 8 }} className="main">
+            <Col xl={{ span: 8 }} className="main position-relative">
               <HeaderTitleBlock>
                 <span className='pageName'>ТИП ПРОКАТА: {this.btnList()[this.state.number]}</span>
               </HeaderTitleBlock> 

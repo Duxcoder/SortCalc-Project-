@@ -68,14 +68,24 @@ input[type="number"]:focus {
     position: relative;
     margin-right: -2px;
     margin-top: 30px;
-
 }
 .bgElem{
     position: relative;
     background-color:#a8a8a8;
-    width: 10px;
-    height: 60%;
+    width: 1%;
+    height: 40%;
     border-radius: 20px 0 0 40px;
+    transition: all 0.4s ease-out;
+    z-index: 1;
+}
+.bgElemActive{
+    position: relative;
+    background-color:#a8a8a8;
+    width: 40%;
+    height: 40%;
+    border-radius: 20px 0 0 40px;
+    z-index: 1;
+    transition: all 0.4s ease-out;
 }
 
 .elemUp{
@@ -101,4 +111,17 @@ input[type="number"]:focus {
     color:#fff;
     font-size:14px;
     border-radius: 10px 0px 0px 10px;
+    cursor: pointer;
+}
+.btnGost:hover{
+    background:  linear-gradient(to right, #919191, #a8a8a8)
+}
+
+.hidden{
+    display: none;
+    opacity: 0;
+}
+.visibleFlex{
+    display: flex;
+    opacity: 1;
 }

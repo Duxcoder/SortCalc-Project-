@@ -112,8 +112,8 @@ render(){
     return (<>
         <DivBottomBlock className="d-flex justify-content-center" >
             <DivSelectBlock className="d-flex align-items-end flex-column">
-              <Select label='Материал' defaultSelected={this.state.valueMat} dataValues={this.createArrMaterials()} whatYouCheck={this.iCheckIt}></Select>
-              <Select label='Марка' defaultSelected={this.state.valueGraid} dataValues={this.state.valueGraidArr} whatYouCheck={this.iCheckIt}></Select>
+              <Select width="240px" height="30px" label='Материал:' defaultSelected={this.state.valueMat} dataValues={this.createArrMaterials()} whatYouCheck={this.iCheckIt}></Select>
+              <Select width="240px" height="30px" label='Марка:' defaultSelected={this.state.valueGraid} dataValues={this.state.valueGraidArr} whatYouCheck={this.iCheckIt}></Select>
             </DivSelectBlock>
             <DivButtonBlock className='d-flex align-items-center justify-content-start'>
               <ButtonCalc label={this.props.labelForResult} result ={this.props.result} clearInputs={this.props.clearInputs} btnVisible={this.props.activeReloadBtn}></ButtonCalc>

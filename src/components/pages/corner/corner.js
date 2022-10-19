@@ -5,7 +5,7 @@ import BlockInput from "../../input/BlockInput";
 import { Container } from "react-bootstrap";
 import {ReactComponent as ElemUp} from './elemUp.svg'
 import {ReactComponent as ElemDown} from './elemDown.svg'
-
+import Select from "../../select/select";
 export default class Corner extends Component {
     constructor(props){
         super(props);
@@ -23,7 +23,8 @@ export default class Corner extends Component {
                     thickness: 0,
                     height: 0,
                     weight: 0
-            }
+            },
+            clickOnGost: false
         }
     }
 
@@ -73,7 +74,11 @@ export default class Corner extends Component {
           </>
           )
         }
+    }
 
+    clickOnGost = () => {
+        this.state.clickOnGost ? this.setState({clickOnGost: false}) : this.setState({clickOnGost: true})
+        
     }
 render(){
     const {width, thickness, height} = this.state.names;
@@ -83,10 +88,19 @@ render(){
     <div className={styles.divGostBlock}>
         <div className={styles.btnBlock}>
             <ElemUp className={styles.elemUp}></ElemUp>
-            <div className={styles.btnGost}>выбор</div>
+            <div className={styles.btnGost} onClick={this.clickOnGost}>выбор из ГОСТ</div>
             <ElemDown className={styles.elemDown}></ElemDown>
         </div>
-        <div className={styles.bgElem}></div>
+        <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem}>
+            <div className={`${this.state.clickOnGost ? styles.visibleFlex : styles.hidden} flex-column align-items-center align-content-center `}> 
+                <Select label='Документ' width='230px'defaultSelected='Hello' dataValues={['ГОСТ 8509-93 Уголки стальные горячекатаные равнополочные', 'ГОСТ 8510-86 Уголки стальные горячекатаные неравнополочные']}></Select>
+                <Select size='10' height='200px' width='230px'defaultSelected='Hello' dataValues={['20x20x3', '20x20x4', '25x25x3', '25x25x4', '25x25x5']}></Select>
+                
+            </div>
+            
+       
+        
+        </div>
      </div>
 
         <div className="d-flex justify-content-center align-items-center transition" >

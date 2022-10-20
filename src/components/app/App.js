@@ -8,6 +8,8 @@ import Corner from '../pages/corner/corner';
 import Sheet from '../pages/sheet/sheet';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {ReactComponent as DesignElement} from './img/designElement.svg'
+import Database from '../database';
+
 const Line = styled.div`
 display: block;
 min-width: 100px;
@@ -58,29 +60,10 @@ constructor(props){
     res: 0,
     density: 0,
     volume: 0,
-    gosts:
-    {
-      corner: [
-        {name: `#2` }
-      ]
-    },
-    grades: {
-      steels: [
-        { name: 'Сталь Ст3', density: 7850, material: 'Сталь'},
-        { name: 'Сталь 45', density: 7826, material: 'Сталь' },
-        { name: '08Х18Н10Т', density: 7900, material: 'Сталь' },
-      ],
-      aluminium: [
-        {name: 'АЛ1', density: 2750, material: 'Алюминий'},
-        {name: 'АЛ2', density: 2650, material: 'Алюминий'}
-      ],
-      aluminiums: [
-        {name: 'АЛ12', density: 2750, material: 'Алюмин'},
-        {name: 'АЛ121', density: 2650, material: 'Алюмин'}
-      ]
-    },
+    
   }
 }
+
 btnList(){
   const btnLists = ['УГОЛОК', 'ЛИСТ', 'ТРУБА', 'КРУГ', 'ШВЕЛЛЕР', 'БАЛКА/ДВУТАВР', 'КВАДРАТ', 'ТРУБА ПРОФИЛЬНАЯ']
   return btnLists
@@ -124,7 +107,7 @@ activeReloadBtn = (boolean) => {
   this.setState({btnReload: boolean})
 }
 ViewContent = () => {
-  const {number, grades, grades: {steels}, volume, density } = this.state;
+  const {number, volume, density } = this.state;
    switch (number){
     case 0 : 
       return (
@@ -138,9 +121,9 @@ ViewContent = () => {
       <CalcBottomBlock 
         activeReloadBtn = {this.state.btnReload}
         clearInputs = {this.clearInputs}
-        data = {grades} 
+        data = {Database.grades} 
         returnDensity = {this.returnDensity} 
-        defaultGraid = {steels[0]} 
+        defaultGraid = {Database.grades.steels[0]} 
         result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
         labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
         weightOn = {this.weightOn}
@@ -155,9 +138,9 @@ ViewContent = () => {
         <CalcBottomBlock 
         activeReloadBtn = {this.state.btnReload}
         clearInputs = {this.clearInputs}
-        data ={grades} 
+        data ={Database.grades} 
         returnDensity={this.returnDensity} 
-        defaultGraid = {steels[0]} 
+        defaultGraid = {Database.grades.steels[0]} 
         result = {this.postResult(density, volume, 'кг', 'мм', 2, 0)}
         labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
         weightOn = {this.weightOn}

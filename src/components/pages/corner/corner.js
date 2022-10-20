@@ -3,9 +3,9 @@ import { ReactComponent as YourSvg } from './corner.svg';
 import styles from './corner.module.css';
 import BlockInput from "../../input/BlockInput";
 import { Container } from "react-bootstrap";
-import {ReactComponent as ElemUp} from './elemUp.svg'
-import {ReactComponent as ElemDown} from './elemDown.svg'
 import Select from "../../select/select";
+import Database from "../../database";
+import GostBlock from "../../gostBlock/gostBlock";
 export default class Corner extends Component {
     constructor(props){
         super(props);
@@ -77,32 +77,14 @@ export default class Corner extends Component {
     }
 
     clickOnGost = () => {
-        this.state.clickOnGost ? this.setState({clickOnGost: false}) : this.setState({clickOnGost: true})
-        
+       console.log('clickOnGost Work')
     }
 render(){
     const {width, thickness, height} = this.state.names;
     return (
     <>
     
-    <div className={styles.divGostBlock}>
-        <div className={styles.btnBlock}>
-            <ElemUp className={styles.elemUp}></ElemUp>
-            <div className={styles.btnGost} onClick={this.clickOnGost}>выбор из ГОСТ</div>
-            <ElemDown className={styles.elemDown}></ElemDown>
-        </div>
-        <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem}>
-            <div className={`${this.state.clickOnGost ? styles.visibleFlex : styles.hidden} flex-column align-items-center align-content-center `}> 
-                <Select label='Документ' width='230px'defaultSelected='Hello' dataValues={['ГОСТ 8509-93 Уголки стальные горячекатаные равнополочные', 'ГОСТ 8510-86 Уголки стальные горячекатаные неравнополочные']}></Select>
-                <Select size='10' height='200px' width='230px'defaultSelected='Hello' dataValues={['20x20x3', '20x20x4', '25x25x3', '25x25x4', '25x25x5']}></Select>
-                
-            </div>
-            
-       
-        
-        </div>
-     </div>
-
+    <GostBlock clickOnGost={this.clickOnGost}></GostBlock>
         <div className="d-flex justify-content-center align-items-center transition" >
            
             <this.RenderInput weightOn={this.props.weightOn}></this.RenderInput>

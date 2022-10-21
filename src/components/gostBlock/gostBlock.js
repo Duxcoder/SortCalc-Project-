@@ -52,15 +52,22 @@ componentDidMount(){
 iCheckIt = (value) => {
     this.setState({checked: value}, () => {console.log(this.state)})
 }
+closeWindowGost = (event) => {
+    if (this.state.clickOnGost && (event.target.classList.contains(styles.cover) || event.target.parentElement.classList.contains(styles.cover))   ) {
+        console.log('ok')
+    } else {
+        this.setState({clickOnGost: false})
+    }
+}
 render(){
-    return (
+    return (<>
         <div className={styles.divGostBlock}>
         <div className={styles.btnBlock}>
             <ElemUp className={styles.elemUp}></ElemUp>
             <div className={styles.btnGost} onClick={this.clickOnGost}>выбор из ГОСТ</div>
             <ElemDown className={styles.elemDown}></ElemDown>
         </div>
-        <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem}>
+        <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem} onClick={this.closeWindowGost}>
             <div className={`${this.state.clickOnGost ? styles.visibleFlex : styles.hidden} flex-column align-items-center align-content-center `}> 
                 <Select 
                     label='Документ' 
@@ -77,12 +84,11 @@ render(){
                 ></Select>
                 
             </div>
-            
-       
-        
         </div>
      </div>
+     <div className={styles.cover}></div>
 
+     </>
     )
 }
 

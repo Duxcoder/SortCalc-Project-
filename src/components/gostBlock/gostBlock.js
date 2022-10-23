@@ -11,7 +11,8 @@ constructor(props){
     super(props);
     this.state = {
         clickOnGost: false,
-        checked: ''
+        checked: '',
+        checkModel:''
     }
 }
 
@@ -38,7 +39,6 @@ giveArrDependingChoice = (checked, object, objectValues) => {
         return arr
     }
     for (let prop in object){
-        console.log(checked === object[prop])
         if (checked === object[prop]){
             return res = createArr(objectValues[prop])
         } else {
@@ -48,19 +48,38 @@ giveArrDependingChoice = (checked, object, objectValues) => {
 }
 componentDidMount(){
     this.setState({checked: Database.gosts.namesGosts.gost8509})
+        document.addEventListener('mousedown', (e) => {
+            console.log(e.target)
+            this.closeWindowGost(e)
+        });
+      
 }
 iCheckIt = (value) => {
     this.setState({checked: value}, () => {console.log(this.state)})
 }
+iCheckModel = (value) => {
+    this.setState({checkModel: value}, () => {
+        for (let key in Database.gosts.namesGosts) {
+            if (Database.gosts.namesGosts[key] === this.state.checked) { 
+                    Database.gosts.corner[key].map( item =>{
+                        item.name === value ? this.props.returnGostValue(item, Database.gosts.namesGosts[key]) : console.log()
+                    })
+            }
+        }
+    })
+}
 closeWindowGost = (event) => {
-    if (this.state.clickOnGost && (event.target.classList.contains(styles.cover) || event.target.parentElement.classList.contains(styles.cover))   ) {
-        console.log('ok')
-    } else {
+    if (this.state.clickOnGost && (event.target.classList.contains(styles.visibleFlex) || event.target.parentElement.classList.contains(styles.visibleFlex) )) {
         this.setState({clickOnGost: false})
+    
+    } else {
+        console.log('ok')
     }
 }
+
 render(){
     return (<>
+     
         <div className={styles.divGostBlock}>
         <div className={styles.btnBlock}>
             <ElemUp className={styles.elemUp}></ElemUp>
@@ -69,7 +88,7 @@ render(){
         </div>
         <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem} onClick={this.closeWindowGost}>
             <div className={`${this.state.clickOnGost ? styles.visibleFlex : styles.hidden} flex-column align-items-center align-content-center `}> 
-                <Select 
+                <Select
                     label='Документ' 
                     width='230px'
                     defaultSelected={Database.gosts.namesGosts.gost8509} 
@@ -77,6 +96,7 @@ render(){
                     dataValues={this.transformToArr(Database.gosts.namesGosts)}
                 ></Select>
                 <Select 
+                    whatYouCheck={this.iCheckModel}
                     size='10' 
                     height='200px' 
                     width='230px'
@@ -86,7 +106,7 @@ render(){
             </div>
         </div>
      </div>
-     <div className={styles.cover}></div>
+  
 
      </>
     )

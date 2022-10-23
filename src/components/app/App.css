@@ -27,6 +27,15 @@ span.pageName {
   font-weight: 300;
   line-height: 24px;
 }
+
+span.gostOn {
+  color: #fff;
+  font-size: 14px !important;
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 300;
+  line-height: 14px;
+}
 .head{
   height: 140px;
   background-color: #fff;

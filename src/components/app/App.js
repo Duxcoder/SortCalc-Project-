@@ -29,9 +29,11 @@ line-height: 28px;
 color: #000000;`
 
 const HeaderTitleBlock = styled.div`
+display: flex;
+justify-content: space-between;
+align-items: center;
 width: 100%;
 height: auto;
-display:block;
 margin: 0px 0px 20px 0px;
 padding: 18px 20px;
 background-color: #224952;
@@ -53,6 +55,7 @@ export default class App extends Component {
 constructor(props){
   super(props)
   this.state = {
+    gostOn: false,
     btnReload: false,
     weightOn: true,
     number: 0,
@@ -86,12 +89,12 @@ isInfinity (item){ // вывод 0 вместо infinity и минусовых �
 }
 postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
   let res;
-  console.log(resInPage)
+  console.log(this.state.gostOn)
   if (this.state.weightOn) {
-    res = (this.isInfinity(den * resInPage)).toFixed(weightToFix)
+    res = this.state.gostOn ? (this.isInfinity(resInPage)).toFixed(weightToFix) : (this.isInfinity(den * resInPage)).toFixed(weightToFix)
     return res > 10e+6 ? `более 10 тыс т.` : `${res} ${weightUoM}`
   } else {
-    res = `${this.isInfinity((resInPage / den)).toFixed(resToFix)}`
+    res = this.state.gostOn ? (this.isInfinity(resInPage).toFixed(resToFix)) : (this.isInfinity((resInPage / den)).toFixed(resToFix)) 
     return res > 10e+5 ? `более 1000 км` : `${res} ${resUoM}`
   }
   
@@ -106,6 +109,13 @@ clearInputs = (boolean) => {
 activeReloadBtn = (boolean) => {
   this.setState({btnReload: boolean})
 }
+
+gostOn = (value, gostName) => {
+  console.log(gostName)
+this.setState({gostOn: value})
+this.setState({gostName: gostName})
+
+}
 ViewContent = () => {
   const {number, volume, density } = this.state;
    switch (number){
@@ -115,6 +125,7 @@ ViewContent = () => {
       <Corner weightOn = {this.state.weightOn} 
               returnVolume = {this.returnVolume} 
               activeReloadBtn = {this.activeReloadBtn}
+              gostOn = {this.gostOn}
               result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
               >
       </Corner>
@@ -201,6 +212,7 @@ weightOn = (value) => {
             <Col xl={{ span: 8 }} className="main position-relative">
               <HeaderTitleBlock>
                 <span className='pageName'>ТИП ПРОКАТА: {this.btnList()[this.state.number]}</span>
+                <span className='gostOn'>{this.state.gostOn ? `${this.state.gostName}` : ''}</span>
               </HeaderTitleBlock> 
               <this.ViewContent></this.ViewContent>
             </Col>
@@ -218,5 +230,4 @@ weightOn = (value) => {
   }
  
 }
-
 

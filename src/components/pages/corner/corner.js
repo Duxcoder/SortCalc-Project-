@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import Select from "../../select/select";
 import Database from "../../database";
 import GostBlock from "../../gostBlock/gostBlock";
+
 export default class Corner extends Component {
     constructor(props){
         super(props);
@@ -31,14 +32,17 @@ export default class Corner extends Component {
 
     componentDidUpdate = (prevProps) => {
         if (this.props.weightOn !== prevProps.weightOn){
-      this.setState({weightOn: this.props.weightOn}, () => {console.log(this.state)});
-      this.setState({values: {...this.state.values, weight: this.state.values.weight, length: this.state.values.length}}, () => {this.calcSquare()});
-      this.calcSquare()}
-
+            this.setState({weightOn: this.props.weightOn}, () => {console.log(this.state)});
+            this.setState({
+                values: {...this.state.values, weight: this.state.values.weight, length: this.state.values.length}}, 
+                () => {this.state.gostOn ? this.calcSquareGost() : this.calcSquare();});
+            this.state.gostOn ? this.findGostValues() : this.calcSquare();
+        }
     }
     componentWillUnmount = () => {
         this.props.returnVolume(0);
-        this.props.activeReloadBtn(false)
+        this.props.activeReloadBtn(false);
+        this.props.gostOn(false, '');
     }
     calcSquare = () => {
         this.setState({gostOn:false}, () => {this.props.gostOn(false, '')})
@@ -70,7 +74,7 @@ export default class Corner extends Component {
             Database.gosts.corner[key].map(item => {
                 if (item.height == height && item.width == width && item.thickness == thickness) {
                     const nameGost = Database.gosts.namesGosts[key]
-                    let name = nameGost.length > 25 ? nameGost.slice(-0, 25) + '...': nameGost
+                    let name = nameGost.length > 25 ? nameGost.slice(-0, 25) + '...' : nameGost
                     this.setState({gostOn:true}, () => {this.props.gostOn(true, item.name + ' ' + name)})
                     this.setState({
                         values: {...this.state.values, 
@@ -88,12 +92,35 @@ export default class Corner extends Component {
     RenderInput = (props) => {
         const isWeightOn = props.weightOn;
         if (isWeightOn) {
-          return  <BlockInput id ={'length'} value = {this.state.values.length} name={this.state.names.length} className={styles.inputLength} valueNum={this.getValue} placeholder={'0 м'}></BlockInput>
+          return  (
+          <BlockInput 
+            id ={'length'} 
+            value = {this.state.values.length} 
+            name={this.state.names.length} 
+            className={styles.inputLength} 
+            valueNum={this.getValue} 
+            placeholder={'0 м'}
+          ></BlockInput>
+          )
         } else {
-
           return ( <>
-          <BlockInput readOnly classNameForLocked={styles.inputLock} id ={'length'} name={this.state.names.length} className={styles.inputLength} result={this.props.result} placeholder={''}></BlockInput> 
-          <BlockInput value = {this.state.values.weight} id ={'weight'} name={this.state.names.weight} className={styles.inputWeight} valueNum={this.getValue} placeholder={'0 кг'}></BlockInput> 
+          <BlockInput 
+            readOnly 
+            classNameForLocked={styles.inputLock} 
+            id ={'length'} 
+            name={this.state.names.length} 
+            className={styles.inputLength} 
+            result={this.props.result} 
+            placeholder={''}
+          ></BlockInput> 
+          <BlockInput 
+            value = {this.state.values.weight} 
+            id ={'weight'} 
+            name={this.state.names.weight} 
+            className={styles.inputWeight} 
+            valueNum={this.getValue} 
+            placeholder={'0 кг'}
+          ></BlockInput> 
           </>
           )
         }
@@ -105,7 +132,6 @@ export default class Corner extends Component {
     returnGostValue = (value, gostName) => {
         let name = gostName.length > 25 ? gostName.slice(-0, 25) + '...': gostName
         this.setState({gostOn:true}, () => {this.props.gostOn(true, value.name + ' ' + name)})
-        console.log(value)
         this.setState({
             values: {...this.state.values, 
                     height: value.height, 
@@ -115,7 +141,6 @@ export default class Corner extends Component {
         }, () => {
             this.calcSquareGost(value.weight)
         })
-        console.log(gostName)
     }
     
     calcSquareGost = (weightGost) => {
@@ -148,4 +173,3 @@ render(){
     )
 }  
 }
-

@@ -77,4 +77,10 @@
     width: auto;
     height: auto;
 }
-
+.icon {
+    margin: 0 6px 0 10px;
+}
+.textBtn {
+    font-weight: 200;
+    font-size:16px;
+}

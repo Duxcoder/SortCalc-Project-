@@ -4,6 +4,8 @@ import {ReactComponent as ElemUp} from './elemUp.svg'
 import {ReactComponent as ElemDown} from './elemDown.svg'
 import Select from "../select/select";
 import Database from "../database";
+import {Files} from 'react-bootstrap-icons'
+
 
 export default class GostBlock extends Component {
 
@@ -83,7 +85,10 @@ render(){
         <div className={styles.divGostBlock}>
         <div className={styles.btnBlock}>
             <ElemUp className={styles.elemUp}></ElemUp>
-            <div className={styles.btnGost} onClick={this.clickOnGost}>выбор из ГОСТ</div>
+            <div className={styles.btnGost} onClick={this.clickOnGost}>
+                <Files className={styles.icon}></Files> 
+                <span className={styles.textBtn} >СПРАВОЧНИК</span>
+            </div>
             <ElemDown className={styles.elemDown}></ElemDown>
         </div>
         <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem} onClick={this.closeWindowGost}>

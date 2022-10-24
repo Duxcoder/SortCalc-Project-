@@ -9,6 +9,7 @@ import Sheet from '../pages/sheet/sheet';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {ReactComponent as DesignElement} from './img/designElement.svg'
 import Database from '../database';
+import {FileText} from 'react-bootstrap-icons'
 
 const Line = styled.div`
 display: block;
@@ -89,7 +90,6 @@ isInfinity (item){ // вывод 0 вместо infinity и минусовых �
 }
 postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
   let res;
-  console.log(this.state.gostOn)
   if (this.state.weightOn) {
     res = this.state.gostOn ? (this.isInfinity(resInPage)).toFixed(weightToFix) : (this.isInfinity(den * resInPage)).toFixed(weightToFix)
     return res > 10e+6 ? `более 10 тыс т.` : `${res} ${weightUoM}`
@@ -111,9 +111,8 @@ activeReloadBtn = (boolean) => {
 }
 
 gostOn = (value, gostName) => {
-  console.log(gostName)
-this.setState({gostOn: value})
-this.setState({gostName: gostName})
+  this.setState({gostOn: value})
+  this.setState({gostName: gostName})
 
 }
 ViewContent = () => {
@@ -188,6 +187,14 @@ ViewContent = () => {
 weightOn = (value) => {
   this.setState({weightOn: value})
 }
+
+GostBlock = () => {
+  if (this.state.gostOn){
+    return <span className='gostOn'><FileText></FileText> {this.state.gostName}</span>
+  } else {
+    return ''
+  }
+}
   render(){
     return (
       <>
@@ -212,7 +219,7 @@ weightOn = (value) => {
             <Col xl={{ span: 8 }} className="main position-relative">
               <HeaderTitleBlock>
                 <span className='pageName'>ТИП ПРОКАТА: {this.btnList()[this.state.number]}</span>
-                <span className='gostOn'>{this.state.gostOn ? `${this.state.gostName}` : ''}</span>
+                <this.GostBlock></this.GostBlock>
               </HeaderTitleBlock> 
               <this.ViewContent></this.ViewContent>
             </Col>

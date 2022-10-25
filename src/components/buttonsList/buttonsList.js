@@ -1,5 +1,11 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 
+const Icon = styled.span`
+width: 26px;
+height: 26px;
+margin-right: 10px;
+`
 export default class ButtonsList extends Component{
 constructor(props){
     super(props);
@@ -24,22 +30,26 @@ this.firstBtnRun(this.state.numActiveBtn)
 }
 
 clickOnButton(event){
-        this.setState({numActiveBtn: event.target.id});
-
-        const cUpdate =() => {
-            const arr = document.querySelectorAll('button');
+        const arr = document.querySelectorAll('button');
+        const removeActiveBtns = (clazz) => {
             arr.forEach(item => {
-                item.classList.remove('button-active')
+                item.classList.remove(clazz)
             })
         }
-        cUpdate()
-        this.props.numb(event.target.id);
-        this.activeBtn(event.target)
+        arr.forEach(item => {
+            const target = event.currentTarget
+            if (item === target){
+                this.setState({numActiveBtn: target.id});
+                removeActiveBtns('button-active')
+                this.activeBtn(target)
+                this.props.numb(target.id);
+            }
+        })
     }
 
 renderBtns = () => {
     let newArrBtns = this.props.valueBtns.map((item, i) => {
-    return <button onClick={this.clickOnButton} className='button' key={i} id={i}>{item}</button>
+    return <button onClick={this.clickOnButton} className='button' key={i} id={i}>{item.name}<Icon>{item.icon}</Icon></button>
     })
     
     // this.setState({arrBtns: newArrBtns})

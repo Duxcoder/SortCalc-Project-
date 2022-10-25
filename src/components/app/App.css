@@ -75,7 +75,10 @@ margin-bottom: 100px;
 }
 
 .button {
-width: 260px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+width: 280px;
 height: 44px;
 border-radius: 5px;
 border: solid 1px #888888;
@@ -98,6 +101,9 @@ transition: 0.2s;
 color:#000000;
 }
 .button-active{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-color:#000;
   padding-left: 34px;
   color:#000;

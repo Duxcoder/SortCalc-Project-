@@ -8,6 +8,22 @@ import Corner from '../pages/corner/corner';
 import Sheet from '../pages/sheet/sheet';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {ReactComponent as DesignElement} from './img/designElement.svg'
+import {ReactComponent as IconCorner} from '../buttonsList/iconCorner.svg'
+import {ReactComponent as IconSheet} from '../buttonsList/iconSheet.svg'
+import {ReactComponent as IconPipe} from '../buttonsList/iconPipe.svg'
+import {ReactComponent as IconCircle} from '../buttonsList/iconCircle.svg'
+import {ReactComponent as IconChannel} from '../buttonsList/iconChannel.svg'
+import {ReactComponent as IconBeam} from '../buttonsList/iconBeam.svg'
+import {ReactComponent as IconSquare} from '../buttonsList/iconSquare.svg'
+import {ReactComponent as IconProfilePipe} from '../buttonsList/iconProfilePipe.svg'
+
+
+
+
+
+
+
+
 import Database from '../database';
 import {FileText} from 'react-bootstrap-icons'
 
@@ -68,9 +84,25 @@ constructor(props){
   }
 }
 
-btnList(){
-  const btnLists = ['УГОЛОК', 'ЛИСТ', 'ТРУБА', 'КРУГ', 'ШВЕЛЛЕР', 'БАЛКА/ДВУТАВР', 'КВАДРАТ', 'ТРУБА ПРОФИЛЬНАЯ']
-  return btnLists
+btnList = () => {
+  return [
+    {name: 'УГОЛОК', icon: <IconCorner width="100%" height="100%"></IconCorner>},
+    {name: 'ЛИСТ', icon: <IconSheet width="100%" height="100%"></IconSheet>},
+    {name: 'ТРУБА', icon: <IconPipe width="100%" height="100%"></IconPipe>},
+    {name: 'КРУГ', icon: <IconCircle width="100%" height="100%"></IconCircle>},
+    {name: 'ШВЕЛЛЕР', icon: <IconChannel width="100%" height="100%"></IconChannel>},
+    {name: 'БАЛКА/ДВУТАВР', icon: <IconBeam width="100%" height="100%"></IconBeam>},
+    {name: 'КВАДРАТ', icon: <IconSquare width="100%" height="100%"></IconSquare>},
+    {name: 'ТРУБА ПРОФИЛЬНАЯ', icon: <IconProfilePipe width="100%" height="100%"></IconProfilePipe>},
+
+
+
+
+  ]
+  // ['УГОЛОК', 'ЛИСТ', 'ТРУБА', 'КРУГ', 'ШВЕЛЛЕР', 'БАЛКА/ДВУТАВР', 'КВАДРАТ', 'ТРУБА ПРОФИЛЬНАЯ']
+}
+sendPageName = (arrPagesNames) => {
+  return arrPagesNames()[this.state.number].name
 }
 numberBtnActive =(id) => {
 return this.setState({number: +id})
@@ -195,6 +227,7 @@ GostBlock = () => {
     return ''
   }
 }
+
   render(){
     return (
       <>
@@ -208,7 +241,7 @@ GostBlock = () => {
           </Row>
           <Row className="container-fluid ">
       <DesignElement className='designElement'  />
-      <h1 className='header'>КОНСТРУКТОР МЕТАЛЛОПРОКАТА</h1>
+      <h1 className='header'>КАЛЬКУЛЯТОР МЕТАЛЛОПРОКАТА</h1>
 
 </Row>
          <Container>
@@ -218,7 +251,7 @@ GostBlock = () => {
             </Col> 
             <Col xl={{ span: 8 }} className="main position-relative">
               <HeaderTitleBlock>
-                <span className='pageName'>ТИП ПРОКАТА: {this.btnList()[this.state.number]}</span>
+                <span className='pageName'>ТИП ПРОКАТА: {this.sendPageName(this.btnList)}</span>
                 <this.GostBlock></this.GostBlock>
               </HeaderTitleBlock> 
               <this.ViewContent></this.ViewContent>

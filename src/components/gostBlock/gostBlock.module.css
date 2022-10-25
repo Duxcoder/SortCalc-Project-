@@ -2,13 +2,11 @@
 
 .divGostBlock{
     display: flex;
-    justify-content: flex-end;
-    flex-direction: row;
-    align-items:flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items:flex-end;
     position: absolute;
     width: 100%;
-    height: 100%;
-
 }
 .btnBlock{
     display: flex;
@@ -16,55 +14,43 @@
     align-items:flex-end;
     flex-direction: column;
     position: relative;
-    margin-right: -2px;
     margin-top: 30px;
-}
-.bgElem{
-    position: relative;
-    background-color:#a8a8a8;
-    width: 1%;
-    height: 40%;
-    border-radius: 20px 0 0 40px;
-    transition: all 0.4s ease-out;
-    z-index: 1;
 }
 .bgElemActive{
     position: relative;
     background-color:#a8a8a8;
-    width: 40%;
     height: auto;
-    border-radius: 20px 0 0 40px;
+    border-radius: 10px;
     z-index: 1;
-    transition: all 0.4s ease-out;
+    padding: 20px;
 }
 
-.elemUp{
-    display: flex;
-    position: relative;
-    margin-bottom: -2px;
-}
-.elemDown{
-    display: flex;
-    position: relative;
-    margin-top: -2px;
-}
 .btnGost {
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     width: auto;
-    height: 46px;
-    background: #a8a8a8;
-    padding-left: 14px;
-    padding-right: 14px;
-    color:#fff;
-    font-size:14px;
-    border-radius: 10px 0px 0px 10px;
+    background: #eee;
+    padding:0px 14px;
+    margin: 0px 20px 18px 0;
+    color:#828282;
+    font-size:12px;
+    border-radius: 10px;
     cursor: pointer;
+    border: solid #A8A8A8 1px;
+}
+span.documentName {
+    color:rgb(63, 56, 56);
+    font-size:16px;
+    font-weight: 500;
+    padding: 0px 12px;
+    width: 100%;
+    
 }
 .btnGost:hover{
-    background:  linear-gradient(to right, #919191, #a8a8a8)
+    color:#fff;
+    background-color:#919191;
 }
 
 .hidden{
@@ -72,13 +58,12 @@
     opacity: 0;
 }
 .visibleFlex{
-    display: flex;
     opacity: 1;
     width: auto;
     height: auto;
 }
 .icon {
-    margin: 0 6px 0 10px;
+    margin: 0 6px;
 }
 .textBtn {
     font-weight: 200;

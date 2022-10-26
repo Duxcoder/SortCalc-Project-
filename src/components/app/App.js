@@ -8,24 +8,10 @@ import Corner from '../pages/corner/corner';
 import Sheet from '../pages/sheet/sheet';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {ReactComponent as DesignElement} from './img/designElement.svg'
-import {ReactComponent as IconCorner} from '../buttonsList/iconCorner.svg'
-import {ReactComponent as IconSheet} from '../buttonsList/iconSheet.svg'
-import {ReactComponent as IconPipe} from '../buttonsList/iconPipe.svg'
-import {ReactComponent as IconCircle} from '../buttonsList/iconCircle.svg'
-import {ReactComponent as IconChannel} from '../buttonsList/iconChannel.svg'
-import {ReactComponent as IconBeam} from '../buttonsList/iconBeam.svg'
-import {ReactComponent as IconSquare} from '../buttonsList/iconSquare.svg'
-import {ReactComponent as IconProfilePipe} from '../buttonsList/iconProfilePipe.svg'
-
-
-
-
-
-
-
-
+import {IconCorner, IconSheet, IconPipe, IconCircle, IconChannel, IconBeam, IconSquare, IconProfilePipe} from '../icons/Icons';
 import Database from '../database';
 import {FileText} from 'react-bootstrap-icons'
+
 
 const Line = styled.div`
 display: block;
@@ -84,25 +70,25 @@ constructor(props){
   }
 }
 
-btnList = () => {
-  return [
-    {name: 'УГОЛОК', icon: <IconCorner width="100%" height="100%"></IconCorner>},
-    {name: 'ЛИСТ', icon: <IconSheet width="100%" height="100%"></IconSheet>},
-    {name: 'ТРУБА', icon: <IconPipe width="100%" height="100%"></IconPipe>},
-    {name: 'КРУГ', icon: <IconCircle width="100%" height="100%"></IconCircle>},
-    {name: 'ШВЕЛЛЕР', icon: <IconChannel width="100%" height="100%"></IconChannel>},
-    {name: 'БАЛКА/ДВУТАВР', icon: <IconBeam width="100%" height="100%"></IconBeam>},
-    {name: 'КВАДРАТ', icon: <IconSquare width="100%" height="100%"></IconSquare>},
-    {name: 'ТРУБА ПРОФИЛЬНАЯ', icon: <IconProfilePipe width="100%" height="100%"></IconProfilePipe>},
-
-
-
-
+btnList = (defColorIcon = '#888', activeColorIcon = '#000') => {
+  let btnsNavigation = [
+    {name: 'УГОЛОК',id:0, icon: <IconCorner fill={this.state.number === 0 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconCorner>},
+    {name: 'ЛИСТ', icon: <IconSheet stroke={this.state.number === 1 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconSheet>},
+    {name: 'ТРУБА', icon: <IconPipe fill={this.state.number === 2 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconPipe>},
+    {name: 'КРУГ', icon: <IconCircle stroke={this.state.number === 3 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconCircle>},
+    {name: 'ШВЕЛЛЕР', icon: <IconChannel stroke={this.state.number === 4 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconChannel>},
+    {name: 'БАЛКА/ДВУТАВР', icon: <IconBeam stroke={this.state.number === 5 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconBeam>},
+    {name: 'КВАДРАТ', icon: <IconSquare stroke={this.state.number === 6 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconSquare>},
+    {name: 'ТРУБА ПРОФИЛЬНАЯ', icon: <IconProfilePipe fill={this.state.number === 7 ? activeColorIcon : defColorIcon} width="100%" height="100%"></IconProfilePipe>},
   ]
+  btnsNavigation.map(item => {
+    return item
+  })
+  return btnsNavigation
   // ['УГОЛОК', 'ЛИСТ', 'ТРУБА', 'КРУГ', 'ШВЕЛЛЕР', 'БАЛКА/ДВУТАВР', 'КВАДРАТ', 'ТРУБА ПРОФИЛЬНАЯ']
 }
 sendPageName = (arrPagesNames) => {
-  return arrPagesNames()[this.state.number].name
+  return this.state.number < this.btnList().length ? arrPagesNames()[this.state.number].name : 'Reload'
 }
 numberBtnActive =(id) => {
 return this.setState({number: +id})
@@ -247,7 +233,7 @@ GostBlock = () => {
          <Container>
           <Row className="justify-content-md-center">
             <Col xl={{ span: 3 }} className='d-flex align-items-start flex-column'>
-                <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList()}></ButtonsList>
+                <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList('#888', '#000')}></ButtonsList>
             </Col> 
             <Col xl={{ span: 8 }} className="main position-relative">
               <HeaderTitleBlock>

@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { ReactComponent as YourSvg } from './corner.svg';
 import styles from './corner.module.css';
 import BlockInput from "../../input/BlockInput";
-import { Container } from "react-bootstrap";
-import Select from "../../select/select";
 import Database from "../../database";
 import GostBlock from "../../gostBlock/gostBlock";
 
@@ -31,12 +29,11 @@ export default class Corner extends Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        if (this.props.weightOn !== prevProps.weightOn){
-            this.setState({weightOn: this.props.weightOn}, () => {console.log(this.state)});
-            this.setState({
-                values: {...this.state.values, weight: this.state.values.weight, length: this.state.values.length}}, 
-                () => {this.state.gostOn ? this.calcSquareGost() : this.calcSquare();});
-            this.state.gostOn ? this.findGostValues() : this.calcSquare();
+        const {gostOn} = this.state
+        const {weightOn} = this.props
+        if (weightOn !== prevProps.weightOn){
+            this.setState({weightOn: weightOn}); // Переключатель вес/длина сохраняется при переключении страниц
+            gostOn ? this.findGostValues() : this.calcSquare();
         }
     }
     componentWillUnmount = () => {
@@ -45,17 +42,27 @@ export default class Corner extends Component {
         this.props.gostOn(false, '');
     }
     calcSquare = () => {
-        this.setState({gostOn:false}, () => {this.props.gostOn(false, '')})
-        const {width, length, thickness, height, weight} = this.state.values;
-        let res;
-        if (this.props.weightOn) {
-            res = (((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) * 1.01 ) * length;
+        const {gostOn, weightOn, returnVolume} = this.props
+        const {values: {width, length, thickness, height, weight}} = this.state
+
+        this.setState({gostOn:false}, () => {gostOn(false, '')}) //отключение ГОСТ, расчёт по формуле
+        if (weightOn) {
+            returnVolume((((thickness*width) + ((height-thickness)*thickness)) * (1.01/1000000)) * length); // расчёт объема (для веса)
         } else {
-            res = weight/(((thickness*width) + ((height-thickness)*thickness)) * (1/1000000) * 1.01);
-            if (isNaN(res)) {res = 0 } 
+            returnVolume(weight/(((thickness*width) + ((height-thickness)*thickness)) * (1.01/1000000))); // расчёт значения для длины
         }
-        this.props.returnVolume(res);
       }
+      calcSquareGost = (weightGost) => {
+        const {length, weight} = this.state.values;
+        const {weightOn, returnVolume} = this.props
+
+        if (weightOn) {
+            returnVolume(weightGost * length);
+        } else {
+            returnVolume(weight / weightGost);
+        }
+      }
+
       visibleBtn = () => {
         let sum = 0;
         for (let key in this.state.values){
@@ -90,13 +97,14 @@ export default class Corner extends Component {
         }
     }
     RenderInput = (props) => {
+        const {values, names} = this.state
         const isWeightOn = props.weightOn;
         if (isWeightOn) {
           return  (
           <BlockInput 
             id ={'length'} 
-            value = {this.state.values.length} 
-            name={this.state.names.length} 
+            value = {values.length} 
+            name={names.length} 
             className={styles.inputLength} 
             valueNum={this.getValue} 
             placeholder={'0 м'}
@@ -108,15 +116,15 @@ export default class Corner extends Component {
             readOnly 
             classNameForLocked={styles.inputLock} 
             id ={'length'} 
-            name={this.state.names.length} 
+            name={names.length} 
             className={styles.inputLength} 
             result={this.props.result} 
             placeholder={''}
           ></BlockInput> 
           <BlockInput 
-            value = {this.state.values.weight} 
+            value = {values.weight} 
             id ={'weight'} 
-            name={this.state.names.weight} 
+            name={names.weight} 
             className={styles.inputWeight} 
             valueNum={this.getValue} 
             placeholder={'0 кг'}
@@ -143,18 +151,7 @@ export default class Corner extends Component {
         })
     }
     
-    calcSquareGost = (weightGost) => {
-        const {width, length, thickness, height, weight} = this.state.values;
-        let res;
-        if (this.props.weightOn) {
-            res = weightGost * length;
-        } else {
-            res = weight/weightGost;
-            if (isNaN(res)) {res = 0 } 
-        }
-        this.props.returnVolume(res);
-      }
-
+  
 render(){
     const {width, thickness, height} = this.state.names;
     return (

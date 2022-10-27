@@ -66,7 +66,6 @@ constructor(props){
     res: 0,
     density: 0,
     volume: 0,
-    
   }
 }
 
@@ -96,6 +95,9 @@ return this.setState({number: +id})
 returnDensity = (returnValue) => {
   this.setState({density: returnValue})
 }
+returnMaterial = (material) => {
+  this.setState({material: material})
+}
 returnVolume = (returnVolume) => {
   this.setState({volume: returnVolume})
 }
@@ -110,12 +112,12 @@ postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
   let res;
   if (this.state.weightOn) {
       res = this.state.gostOn ? 
-      (this.isInfinity(resInPage)).toFixed(weightToFix) : 
+      (this.isInfinity(den * resInPage)).toFixed(weightToFix) : 
       (this.isInfinity(den * resInPage)).toFixed(weightToFix)
     return res > 10e+6 ? `более 10 тыс т.` : `${res} ${weightUoM}`
   } else {
       res = this.state.gostOn ? 
-      (this.isInfinity(resInPage).toFixed(resToFix)) : 
+      (this.isInfinity(resInPage / den).toFixed(resToFix)) : 
       (this.isInfinity((resInPage / den)).toFixed(resToFix)) 
     return res > 10e+5 ? `более 1000 км` : `${res} ${resUoM}`
   }
@@ -148,6 +150,8 @@ ViewContent = () => {
               activeReloadBtn = {this.activeReloadBtn}
               gostOn = {this.gostOn}
               result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+              material = {this.state.material}
+              density = {this.state.density}
               >
       </Corner>
       <CalcBottomBlock 
@@ -159,6 +163,7 @@ ViewContent = () => {
         result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
         labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
         weightOn = {this.weightOn}
+        returnMaterial = {this.returnMaterial}
         >
         </CalcBottomBlock>
       </>

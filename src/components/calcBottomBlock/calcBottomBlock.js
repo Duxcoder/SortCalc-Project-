@@ -44,6 +44,8 @@ componentDidMount( ){
         valueGraidArr: this.createArr('name')
     })
     this.props.returnDensity(this.state.valueDensity)
+    this.props.returnMaterial(this.state.valueMat)
+
 }
 
 createArrProps= (arr, option) => {
@@ -85,7 +87,7 @@ iCheckIt = (valueSelect) => {
     }
 
     if (this.createArrMaterials().includes(valueSelect)) {
-        this.setState({valueMat : valueSelect});
+        this.setState({valueMat : valueSelect}, () => {this.props.returnMaterial(valueSelect)});
 
         for (let key in data){
             if (data[key][0].material === valueSelect){ // поиск материла в базе со стейтом материала
@@ -125,3 +127,4 @@ render(){
     
 }
 }
+

@@ -62,7 +62,7 @@ iCheckModel = (value) => {
         for (let key in Database.gosts.namesGosts) {
             if (Database.gosts.namesGosts[key] === this.state.checked) { 
                     Database.gosts.corner[key].map( item =>{
-                        item.name === value ? this.props.returnGostValue(item, Database.gosts.namesGosts[key]) : console.log()
+                        item.name === value ? this.props.returnGostValue([item, Database.gosts.namesGosts[key]]) : console.log()
                     })
             }
         }
@@ -112,4 +112,3 @@ render(){
 }
 
 }
-

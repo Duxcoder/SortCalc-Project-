@@ -25,8 +25,10 @@ const Database = {
       },
       corner: {
         gost8509:[
-            {name: '20x20x3', height: 20, width: 20, thickness: 3, weight: 0.88},
-            {name: '20x20x4', height: 20, width: 20, thickness: 4, weight: 1.12}
+            {name: '20x20x3', height: 20, width: 20, thickness: 3, weight: 0.88, R: 3.5, r: 1.2},
+            {name: '20x20x4', height: 20, width: 20, thickness: 4, weight: 1.15, R: 3.5, r: 1.2},
+            {name: '110x110x8', height: 110, width: 110, thickness: 8, weight: 13.5, R: 12, r: 4}
+
             
         ],
         gost8510: [

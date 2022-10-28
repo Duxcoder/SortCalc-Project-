@@ -111,14 +111,10 @@ isInfinity (item){ // вывод 0 вместо infinity и минусовых �
 postResult = (den, resInPage, weightUoM, resUoM, weightToFix, resToFix) => {
   let res;
   if (this.state.weightOn) {
-      res = this.state.gostOn ? 
-      (this.isInfinity(den * resInPage)).toFixed(weightToFix) : 
-      (this.isInfinity(den * resInPage)).toFixed(weightToFix)
+      res = (this.isInfinity(den * resInPage)).toFixed(weightToFix)
     return res > 10e+6 ? `более 10 тыс т.` : `${res} ${weightUoM}`
   } else {
-      res = this.state.gostOn ? 
-      (this.isInfinity(resInPage / den).toFixed(resToFix)) : 
-      (this.isInfinity((resInPage / den)).toFixed(resToFix)) 
+      res = (this.isInfinity((resInPage / den)).toFixed(resToFix)) 
     return res > 10e+5 ? `более 1000 км` : `${res} ${resUoM}`
   }
   

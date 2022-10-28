@@ -69,20 +69,47 @@ export default class BlockInput extends Component {
         if (!readOnly) {
 
             if (value) {
-                return <Input type="number" value={value} onKeyDown= {this.clearPlusAndMinus} onInput={this.clickChange} onWheel = {this.scrollOff} name={id} autoСomplete="off" min="0" placeholder={this.props.placeholder}></Input>
+                return <Input 
+                            type="number" 
+                            value={value} 
+                            onKeyDown= {this.clearPlusAndMinus} 
+                            onInput={this.clickChange} 
+                            onWheel = {this.scrollOff} 
+                            name={id} 
+                            autoСomplete="off" 
+                            min="0" 
+                            placeholder={this.props.placeholder}
+                        ></Input>
             }
             else {
-                return <Input type="number"  onKeyDown= {this.clearPlusAndMinus} onInput={this.clickChange} onWheel = {this.scrollOff} name={id} autoСomplete="off" min="0" placeholder={this.props.placeholder}></Input>
+                return <Input 
+                            type="number"  
+                            onKeyDown= {this.clearPlusAndMinus} 
+                            onInput={this.clickChange} 
+                            onWheel = {this.scrollOff} 
+                            name={id} 
+                            autoСomplete="off" 
+                            min="0" 
+                            placeholder={this.props.placeholder}
+                        ></Input>
             }
 
         } else {
-            return  <Input readOnly={readOnly} className={classNameForLocked} value = {result} type="text" name={id} autoСomplete="off" placeholder={this.props.placeholder}></Input>
+            return  <Input 
+                        readOnly={readOnly} 
+                        className={classNameForLocked} 
+                        value = {result} 
+                        type="text" 
+                        name={id} 
+                        autoСomplete="off" 
+                        placeholder={this.props.placeholder}
+                    ></Input>
 
         }
     }
 render(){
 
-    const {name, id, className, readOnly, result, classNameForLocked} = this.props;
+    const {name, className} = this.props;
     return (
     <DivInput className={className}>
         <SpanText>{name}</SpanText>

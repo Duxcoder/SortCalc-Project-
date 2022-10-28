@@ -1,5 +1,24 @@
-import React from "react";
-
+const dataCornerGost8510 = {
+    't8510': [3, 3, 4, 3, 4, 3, 4, 5, 4, 5, 3, 4, 3, 4, 4, 5, 4, 5, 6, 8, 5, 6, 7, 8, 5, 5, 6, 7, 8, 5, 6, 6, 7, 8, 5.5, 6, 8, 6, 7, 8, 10, 7, 8, 10, 6.5, 8, 7, 8, 10, 12, 8, 10, 9, 10, 12, 14, 10, 12, 11, 12, 14, 16]
+    ,'h8510': [25, 30, 30, 32, 32, 40, 40, 40, 40, 40, 45, 45, 50, 50, 56, 56, 63, 63, 63, 63, 65, 65, 65, 65, 70, 75, 75, 75, 75, 80, 80, 80, 80, 80, 90, 90, 90, 100 , 100 , 100, 100, 100 , 100 , 100, 110 , 110, 125 , 125 , 125, 125, 140 , 140, 160 , 160 , 160, 160, 180 , 180, 200 , 200 , 200, 200]
+    ,'w8510': [16, 20, 20, 20, 20, 25, 25, 25, 30, 30, 28, 28, 32, 32, 36, 36, 40, 40, 40, 40, 50, 50, 50, 50, 45, 50, 50, 50, 50, 50, 50, 60, 60, 60, 56, 56, 56, 63, 63, 63, 63, 65, 65, 65, 70, 70, 80, 80, 80, 80, 90, 90, 100, 100, 100, 100, 100, 100, 125, 125, 125, 125]
+    ,'R8510': [3.5, 3.5, 3.5, 3.5, 3.5, 4.0, 4.0, 4.0, 4.0, 4.0, 5.0, 5.0, 5.5, 5.5, 6.0, 6.0, 7.0, 7.0, 7.0, 7.0, 6.0,  6.0,  6.0,  6.0, 7.5, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 9.0, 9.0, 9.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 11.0, 11.0, 11.0, 11.0, 12.0, 12.0, 13.0, 13.0, 13.0, 13.0, 14.0, 14.0, 14.0, 14.0, 14.0, 14.0]
+    ,'r8510': [1.2, 1.2, 1.2, 1.2, 1.2, 1.3, 1.3, 1.3, 1.3, 1.3, 1.7, 1.7, 1.8, 1.8, 2.0, 2.0, 2.3, 2.3, 2.3, 2.3, 2.0, 2.0, 2.0, 2.0, 2.5, 2.7, 2.7, 2.7, 2.7, 2.7, 2.7, 2.7, 2.7, 2.7, 3.0, 3.0, 3.0, 3.3, 3.3, 3.3, 3.3, 3.3, 3.3, 3.3, 3.3, 3.3, 3.7, 3.7, 3.7, 3.7, 4.0, 4.0, 4.3, 4.3, 4.3, 4.3, 4.7, 4.7, 4.7, 4.7, 4.7, 4.7]
+}
+const createGostArr = (height, width, thickness, R, r, length = 1) => {
+    let gost = [];
+    for (let i=0; i < height.length; i++){
+        gost[i] = {name: `${height[i]}x${width[i]}x${thickness[i]}`, 
+                height: height[i],
+                width: width[i],
+                thickness: thickness[i],
+                R: R[i],
+                r: r[i],
+                length: length
+        }
+    }
+    return gost
+}
 
 const Database = {
     grades : {
@@ -14,7 +33,7 @@ const Database = {
         ],
         aluminiums: [
             {name: 'АЛ12', density: 2750, material: 'Алюмин'},
-            {name: 'АЛ121', density: 2650, material: 'Алюмин'}
+            {name: 'АЛ121', density: 7850, material: 'Алюмин'}
         ]
     },
     gosts:
@@ -25,19 +44,21 @@ const Database = {
       },
       corner: {
         gost8509:[
-            {name: '20x20x3', height: 20, width: 20, thickness: 3, weight: 0.88, R: 3.5, r: 1.2},
-            {name: '20x20x4', height: 20, width: 20, thickness: 4, weight: 1.15, R: 3.5, r: 1.2},
-            {name: '110x110x8', height: 110, width: 110, thickness: 8, weight: 13.5, R: 12, r: 4}
+            {name: '20x20x3', height: 20, length: 1, width: 20, thickness: 3, weight: 0.88, R: 3.5, r: 1.2},
+            {name: '20x20x4', height: 20, length: 1, width: 20, thickness: 4, weight: 1.15, R: 3.5, r: 1.2},
+            {name: '110x110x8', height: 110, length: 1, width: 110, thickness: 8, weight: 13.5, R: 12, r: 4}
 
             
         ],
-        gost8510: [
-            {name: '25x16x3', height: 25, width: 16, thickness: 3, weight: 0.91},
-            {name: '30x20x3', height: 30, width: 20, thickness: 3, weight: 1.12}
-        ],
+        gost8510: createGostArr(dataCornerGost8510.h8510, dataCornerGost8510.w8510, dataCornerGost8510.t8510, dataCornerGost8510.R8510, dataCornerGost8510.r8510),
       },
     }
 }
 
 
+
 export default Database
+
+
+
+   

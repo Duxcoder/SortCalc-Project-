@@ -9,6 +9,7 @@ export default class Corner extends Component {
     constructor(props){
         super(props);
         this.state = {
+            gostBlockView: true,
             gostOn: false,
             weightOn: true,
             names: { width: 'Ширина, мм',
@@ -31,32 +32,110 @@ export default class Corner extends Component {
     }
 
     componentDidUpdate = (prevProps) => {
-
         const {weightOn} = this.props
         if (weightOn !== prevProps.weightOn){
             this.setState({weightOn: weightOn}); // Переключатель вес/длина сохраняется при переключении страниц
             this.choiceCalculator()
         }
-       if (prevProps.material !== this.props.material){
-        this.choiceCalculator()
+        if (prevProps.material !== this.props.material){
+            this.choiceCalculator()
         }
     }
+    
+    choiceCalculator() {
+        const checkedItemGost = this.findGostValues('corner') 
+        this.setState({gostBlockView: true})
+        if (this.props.material === 'Сталь') {
+          if (checkedItemGost) {this.returnGostValue(checkedItemGost)}
+          else {
+            this.calcSquare(1.01);
+            }
+        }
+        else {
+            this.setState({gostBlockView: false})
+            this.calcSquare(1);
+        }
+    }
+
+    findGostValues = (page) => {
+        const {height, width, thickness} = this.state.values;
+        let arr = [];
+        for (let key in Database.gosts[page]){
+            Database.gosts[page][key].map(item => {
+                if (item.height === height && item.width === width && item.thickness === thickness) {
+                    const nameGost = Database.gosts.namesGosts[key]
+                    arr.push(item, nameGost)
+                } 
+            })
+        }
+        return arr == "" ? false : arr   
+    }
+
+    returnGostValue = ([value, gostName]) => {
+        this.setGostValue(value, () => {this.calcSquareGost(value.R, value.r)});
+        this.pushGostName(value, gostName);
+    }
+
+    setGostValue = (valuesGostObj, fn) => {
+        this.setState({ values:{
+            ...this.state.values, 
+            height: valuesGostObj.height, 
+            width: valuesGostObj.width, 
+            thickness: valuesGostObj.thickness,
+            R: valuesGostObj.R,
+            r: valuesGostObj.r}
+        }, () => {fn()})
+    }
+
+    pushGostName = (value, gostName) => {
+        let name = gostName.length > 25 ? gostName.slice(-0, 25) + '...': gostName
+        this.setState({gostOn:true}, () => {this.props.gostOn(true, value.name + ' ' + name)})
+    }
+   
+    calcSquare = (coefficient) => {
+        const {gostOn, weightOn, returnVolume} = this.props
+        const {values: {width, length, thickness, height, weight}} = this.state
+        this.setState({gostOn:false}, () => {gostOn(false, '')}) //отключение ГОСТ, расчёт по формуле
+        if (weightOn) {
+            returnVolume((((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000)) * length); // расчёт объема (для веса)
+        } else {
+            returnVolume(weight/(((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000))); // расчёт значения для длины
+        }
+    }
+
+    calcSquareGost= (R, r) => {
+        const {weightOn, returnVolume} = this.props
+        const {values: {width, length, thickness, height, weight}} = this.state
+        if (weightOn) {
+            returnVolume(((thickness * (width + height - thickness)) + (0.2146 * (R ** 2 - 2 * r ** 2))) * length / 1000000)}
+        else {
+            returnVolume(weight/((thickness * (width + height - thickness) + 0.2146 * (R ** 2 - 2 * r ** 2)) / 1000000))
+        }
+    }
+
+    getValue = (id) => {
+        this.setState({values: { ...this.state.values, ...id}}, () => {
+         this.choiceCalculator();
+         this.visibleBtn()
+        });
+     }
+
+    visibleBtn = () => {
+        let sum = 0;
+        for (let key in this.state.values){
+            sum += this.state.values[key]
+        }
+        (sum > 0) ? this.props.activeReloadBtn(true) : this.props.activeReloadBtn(false)
+    }
+    
+    clickOnGost = () => {
+    }
+
     componentWillUnmount = () => {
         this.props.returnVolume(0);
         this.props.activeReloadBtn(false);
         this.props.gostOn(false, '');
     }
-    
-
-      visibleBtn = () => {
-        let sum = 0;
-        for (let key in this.state.values){
-         sum += this.state.values[key]
-        }
-        (sum > 0) ? this.props.activeReloadBtn(true) : this.props.activeReloadBtn(false)
-     }
-
-    
 
     RenderInput = (props) => {
         const {values, names} = this.state
@@ -96,103 +175,16 @@ export default class Corner extends Component {
         }
     }
 
-    clickOnGost = () => {
-       console.log('clickOnGost Work')
-    }
-        
-    getValue = (id) => {
-        this.setState({values: { ...this.state.values, ...id}}, () => {
-         this.choiceCalculator();
-         this.visibleBtn()
-        });
-     }
-
-    pushGostName = (value, gostName) => {
-        let name = gostName.length > 25 ? gostName.slice(-0, 25) + '...': gostName
-        this.setState({gostOn:true}, () => {this.props.gostOn(true, value.name + ' ' + name)})
-    }
-    returnGostValue = ([value, gostName]) => {
-        this.setGostValue(value, () => {this.calcSquareGost(value.R, value.r)});
-        this.pushGostName(value, gostName);
-        ;
-    }
-   
-
-    findGostValues = (page) => {
-        const {height, width, thickness} = this.state.values;
-        let arr = false;
-        for (let key in Database.gosts[page]){
-            Database.gosts[page][key].map(item => {
-                if (item.height === height && item.width === width && item.thickness === thickness) {
-                    const nameGost = Database.gosts.namesGosts[key]
-                   arr = [item, nameGost]
-                } 
-            })
-        }
-        return arr
-    }
-    setGostValue = (valuesGostObj, fn) => {
-        this.setState({
-            values: {...this.state.values, 
-                    height: valuesGostObj.height, 
-                    width: valuesGostObj.width, 
-                    thickness: valuesGostObj.thickness,
-                    R: valuesGostObj.R,
-                    r: valuesGostObj.r}
-        }, () => {fn()})
-    }
-    calcSquare = (coefficient) => {
-        const {gostOn, weightOn, returnVolume} = this.props
-        const {values: {width, length, thickness, height, weight}} = this.state
-
-        this.setState({gostOn:false}, () => {gostOn(false, '')}) //отключение ГОСТ, расчёт по формуле
-        if (weightOn) {
-            returnVolume((((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000)) * length); // расчёт объема (для веса)
-        } else {
-            returnVolume(weight/(((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000))); // расчёт значения для длины
-        }
-      }
-
-      calcSquareGost= (R, r) => {
-        const {weightOn, returnVolume} = this.props
-        const {values: {width, length, thickness, height, weight}} = this.state
-        if (weightOn) {
-            returnVolume(((thickness * (width + height - thickness)) + (0.2146 * (R ** 2 - 2 * r ** 2))) * length / 1000000)}
-        else {
-            returnVolume(weight/((thickness * (width + height - thickness) + 0.2146 * (R ** 2 - 2 * r ** 2)) / 1000000))
-        }
-      }
-      
-
-    //   calcSquareSimple = (weightGost) => {
-    //     const {length, weight} = this.state.values;
-    //     const {weightOn, returnVolume} = this.props
-
-    //     if (weightOn) {
-    //         returnVolume(weightGost * length);
-    //     } else {
-    //         returnVolume(weight / weightGost);
-    //     }
-    //   }
-    choiceCalculator() {
-        const checkedItemGost = this.findGostValues('corner') 
-        console.log(this.state.values)
-        if (this.props.material === 'Сталь') {
-          if (checkedItemGost) {this.returnGostValue(checkedItemGost)}
-          else {
-            this.calcSquare(1.01);
-            }
-        }
-        else {
-            this.calcSquare(1);
-        }
-    }
 render(){
     const {names:{width, thickness, height}, values} = this.state;
+    let gostBlockRender;
+    if (this.state.gostBlockView) {
+        gostBlockRender =  <GostBlock clickOnGost={this.clickOnGost} returnGostValue={this.returnGostValue}></GostBlock>
+    }
     return (
     <>
     
-    <GostBlock clickOnGost={this.clickOnGost} returnGostValue={this.returnGostValue}></GostBlock>
+        {gostBlockRender}
         <div className="d-flex justify-content-center align-items-center transition" >
             <this.RenderInput weightOn={this.props.weightOn}></this.RenderInput>
             <BlockInput id ={'width'} 

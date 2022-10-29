@@ -243,7 +243,7 @@ GostBlock = () => {
             <Col xl={{ span: 8 }} className="main position-relative">
               <HeaderTitleBlock>
                 <span className='pageName'>ТИП ПРОКАТА: {this.sendPageName(this.btnList)}</span>
-                <this.GostBlock></this.GostBlock>
+                <this.GostBlock ></this.GostBlock>
               </HeaderTitleBlock> 
               <this.ViewContent></this.ViewContent>
             </Col>

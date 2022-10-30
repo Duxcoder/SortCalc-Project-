@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ReactComponent as YourSvg } from './corner.svg';
+import { ReactComponent as YourSvg } from './circle.svg';
 import styles from './style.module.css';
 import BlockInput from "../../input/BlockInput";
 import Database from "../../database";
@@ -8,23 +8,17 @@ export default class Corner extends Component {
     constructor(props){
         super(props);
         this.state = {
-            gostBlockView: true,
+            gostBlockView: false,
             gostOn: false,
             weightOn: true,
-            names: { width: 'Ширина, мм',
+            names: { diameter: 'Диаметр, мм',
                     length: 'Длина, м',
-                    thickness: 'Толщина, мм',
-                    height: 'Высота, мм',
                     weight: 'Вес, кг'
             },
             values: {
-                    width: 0,
+                    diameter: 0,
                     length: 0,
-                    thickness: 0,
-                    height: 0,
-                    weight: 0,
-                    r: 0,
-                    R: 0
+                    weight: 0
             },
             clickOnGost: false
         }
@@ -34,27 +28,20 @@ export default class Corner extends Component {
         const {weightOn} = this.props
         if (weightOn !== prevProps.weightOn){
             this.setState({weightOn: weightOn}); // Переключатель вес/длина сохраняется при переключении страниц
-            this.choiceCalculator('corner', 'Сталь')
+            this.choiceCalculator('circle', 'Сталь')
         }
         if (prevProps.material !== this.props.material){
-            this.choiceCalculator('corner', 'Сталь')
-
+            this.choiceCalculator('circle', 'Сталь')
         }
     }
     
-    choiceCalculator(databasePage, checkedMaterial) {
+    choiceCalculator(databasePage) {
         const checkedItemGost = this.findGostValues(databasePage) 
-        this.setState({gostBlockView: true})
-        if (this.props.material === checkedMaterial) {
+        this.setState({gostBlockView: false})
           if (checkedItemGost) {this.returnGostValue(checkedItemGost)}
           else {
-            this.calcSquare(1.01);
+            this.calcSquare();
             }
-        }
-        else {
-            this.setState({gostBlockView: false})
-            this.calcSquare(1);
-        }
     }
 
     findGostValues = (page) => {
@@ -72,18 +59,14 @@ export default class Corner extends Component {
     }
 
     returnGostValue = ([value, gostName]) => {
-        this.setGostValue(value, () => {this.calcSquareGost(value.R, value.r)});
+        this.setGostValue(value, () => {this.calcSquareGost()});
         this.pushGostName(value, gostName);
     }
 
     setGostValue = (valuesGostObj, fn) => {
         this.setState({ values:{
-            ...this.state.values, 
-            height: valuesGostObj.height, 
-            width: valuesGostObj.width, 
-            thickness: valuesGostObj.thickness,
-            R: valuesGostObj.R,
-            r: valuesGostObj.r}
+            ...this.state.values,
+            diameter: valuesGostObj.diameter}
         }, () => {fn()})
     }
 
@@ -92,30 +75,30 @@ export default class Corner extends Component {
         this.setState({gostOn:true}, () => {this.props.gostOn(true, value.name + ' ' + name)})
     }
    
-    calcSquare = (coefficient) => {
+    calcSquare = () => {
         const {gostOn, weightOn, returnVolume} = this.props
-        const {values: {width, length, thickness, height, weight}} = this.state
+        const {values: {diameter, length, weight}} = this.state
         this.setState({gostOn:false}, () => {gostOn(false, '')}) //отключение ГОСТ, расчёт по формуле
         if (weightOn) {
-            returnVolume((((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000)) * length); // расчёт объема (для веса)
+            returnVolume(((Math.PI * diameter ** 2 ) / 4) / 1000000  * length); // расчёт объема (для веса)
         } else {
-            returnVolume(weight/(((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000))); // расчёт значения для длины
+            returnVolume(weight/((Math.PI * diameter ** 2 ) / 4) * 1000000); // расчёт значения для длины
         }
     }
 
-    calcSquareGost= (R, r) => {
+    calcSquareGost= () => {
         const {weightOn, returnVolume} = this.props
-        const {values: {width, length, thickness, height, weight}} = this.state
+        const {values: {diameter, length, weight}} = this.state
         if (weightOn) {
-            returnVolume(((thickness * (width + height - thickness)) + (0.2146 * (R ** 2 - 2 * r ** 2))) * length / 1000000)}
+            returnVolume(((Math.PI * diameter ** 2 ) / 4) / 1000000  * length);} // расчёт объема (для веса)
         else {
-            returnVolume(weight/((thickness * (width + height - thickness) + 0.2146 * (R ** 2 - 2 * r ** 2)) / 1000000))
+            returnVolume(weight/((Math.PI * diameter ** 2 ) / 4) * 1000000); // расчёт значения для длины
         }
     }
 
     getValue = (id) => {
         this.setState({values: { ...this.state.values, ...id}}, () => {
-         this.choiceCalculator('corner', 'Сталь');
+         this.choiceCalculator('circle', 'Сталь');
          this.visibleBtn()
         });
      }
@@ -176,7 +159,7 @@ export default class Corner extends Component {
     }
 
 render(){
-    const {names:{width, thickness, height}, values} = this.state;
+    const {names:{diameter, thickness}, values} = this.state;
     let gostBlockRender;
     if (this.state.gostBlockView) {
         gostBlockRender =  <GostBlock clickOnGost={this.clickOnGost} returnGostValue={this.returnGostValue}></GostBlock>
@@ -186,23 +169,10 @@ render(){
         {gostBlockRender}
         <div className="d-flex justify-content-center align-items-center transition" >
             <this.RenderInput weightOn={this.props.weightOn}></this.RenderInput>
-            <BlockInput id ={'width'} 
-                        value = {values.width} 
-                        name={width} 
-                        className={styles.inputWidth} 
-                        valueNum={this.getValue} 
-                        placeholder={'0 мм'}
-            ></BlockInput>
-            <BlockInput id ={'thickness'} 
-                        value = {values.thickness} name={thickness} 
-                        className={styles.inputThickness} 
-                        valueNum={this.getValue} 
-                        placeholder={'0 мм'}
-            ></BlockInput>
-            <BlockInput id ={'height'} 
-                        value = {values.height} 
-                        name={height} 
-                        className={styles.inputHeight} 
+            <BlockInput id ={'diameter'} 
+                        value = {values.diameter} 
+                        name={diameter} 
+                        className={styles.inputDiameter} 
                         valueNum={this.getValue} 
                         placeholder={'0 мм'}
             ></BlockInput>

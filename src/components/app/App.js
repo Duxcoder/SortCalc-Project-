@@ -6,6 +6,8 @@ import {Container, Row, Col} from 'react-bootstrap';
 import ButtonsList from '../buttonsList/buttonsList';
 import Corner from '../pages/corner/corner';
 import Sheet from '../pages/sheet/sheet';
+import Pipe from '../pages/pipe/pipe'
+import Circle from '../pages/circle/circle'
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {ReactComponent as DesignElement} from './img/designElement.svg'
 import {IconCorner, IconSheet, IconPipe, IconCircle, IconChannel, IconBeam, IconSquare, IconProfilePipe} from '../icons/Icons';
@@ -167,26 +169,81 @@ ViewContent = () => {
     case 1 : 
       return (
         <>
-        <Sheet weightOn = {this.state.weightOn} returnVolume={this.returnVolume} activeReloadBtn={this.activeReloadBtn}></Sheet>
+        <Sheet weightOn = {this.state.weightOn} 
+               returnVolume={this.returnVolume}
+               gostOn = {this.gostOn} 
+              activeReloadBtn={this.activeReloadBtn}
+              result = {this.postResult(density, volume, 'кг', 'мм', 2, 0)}
+              material = {this.state.material}
+              density = {this.state.density}
+              >
+        </Sheet>
         <CalcBottomBlock 
-        activeReloadBtn = {this.state.btnReload}
-        clearInputs = {this.clearInputs}
-        data ={Database.grades} 
-        returnDensity={this.returnDensity} 
-        defaultGraid = {Database.grades.steels[0]} 
-        result = {this.postResult(density, volume, 'кг', 'мм', 2, 0)}
-        labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
-        weightOn = {this.weightOn}
+          activeReloadBtn = {this.state.btnReload}
+          clearInputs = {this.clearInputs}
+          data ={Database.grades} 
+          returnDensity={this.returnDensity} 
+          defaultGraid = {Database.grades.steels[0]} 
+          result = {this.postResult(density, volume, 'кг', 'мм', 2, 0)}
+          labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+          weightOn = {this.weightOn}
+          returnMaterial = {this.returnMaterial}
         >
         </CalcBottomBlock>
         </>
       )
       
     case 2:
-      return <p>This is 2</p>
+      return (
+      <>
+      <Pipe weightOn = {this.state.weightOn} 
+            returnVolume = {this.returnVolume} 
+            activeReloadBtn = {this.activeReloadBtn}
+            gostOn = {this.gostOn}
+            result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+            material = {this.state.material}
+            density = {this.state.density}
+              >
+      </Pipe>
+      <CalcBottomBlock 
+        activeReloadBtn = {this.state.btnReload}
+        clearInputs = {this.clearInputs}
+        data = {Database.grades} 
+        returnDensity = {this.returnDensity} 
+        defaultGraid = {Database.grades.steels[0]} 
+        result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+        labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+        weightOn = {this.weightOn}
+        returnMaterial = {this.returnMaterial}
+        >
+        </CalcBottomBlock>
+      </>)
 
     case 3 : 
-      return <p>This is 3</p>
+    return (
+      <>
+      <Circle weightOn = {this.state.weightOn} 
+              returnVolume = {this.returnVolume} 
+              activeReloadBtn = {this.activeReloadBtn}
+              gostOn = {this.gostOn}
+              result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+              material = {this.state.material}
+              density = {this.state.density}
+              >
+      </Circle>
+      <CalcBottomBlock 
+        activeReloadBtn = {this.state.btnReload}
+        clearInputs = {this.clearInputs}
+        data = {Database.grades} 
+        returnDensity = {this.returnDensity} 
+        defaultGraid = {Database.grades.steels[0]} 
+        result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+        labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+        weightOn = {this.weightOn}
+        returnMaterial = {this.returnMaterial}
+        >
+        </CalcBottomBlock>
+      </>)
 
     case 4 : 
       return <p>This is 4</p>
@@ -230,12 +287,8 @@ GostBlock = () => {
               <span className='title'>КАЛЬКУЛЯТОР МЕТАЛЛОПРОКАТА</span>
            </Col>
           </Row>
-          <Row className="container-fluid ">
-      <DesignElement className='designElement'  />
-      <h1 className='header'>КАЛЬКУЛЯТОР МЕТАЛЛОПРОКАТА</h1>
-
-</Row>
          <Container>
+         {/* <h1 className='header'>КАЛЬКУЛЯТОР МЕТАЛЛОПРОКАТА</h1> */}
           <Row className="justify-content-md-center">
             <Col xl={{ span: 3 }} className='d-flex align-items-start flex-column'>
                 <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList('#888', '#000')}></ButtonsList>

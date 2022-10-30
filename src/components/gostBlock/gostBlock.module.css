@@ -69,3 +69,17 @@ span.documentName {
     font-weight: 200;
     font-size:16px;
 }
+.close {
+    float:right;
+    position: absolute;
+    cursor: pointer;
+    margin-top:4px;
+}
+.closeBlock {
+    width: 87%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    float:right;
+    justify-content: right;
+}

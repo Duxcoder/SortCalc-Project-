@@ -69,9 +69,9 @@ iCheckModel = (value) => {
     })
 }
 closeWindowGost = (event) => {
-    if (this.state.clickOnGost && (event.target.classList.contains(styles.visibleFlex) || event.target.parentElement.classList.contains(styles.visibleFlex) )) {
+    if (this.state.clickOnGost && (event.target.classList.contains(styles.close) 
+    || event.target.parentElement.classList.contains(styles.close) )) {
         this.setState({clickOnGost: false})
-    
     } else {
         console.log('ok')
     }
@@ -87,7 +87,8 @@ render(){
             </div>
             <div className={this.state.clickOnGost ? styles.bgElemActive : styles.bgElem} onClick={this.closeWindowGost}>
                 <div className={`${this.state.clickOnGost ? styles.visibleFlex : styles.hidden} flex-column align-items-center align-content-center `}> 
-                   <span className={styles.documentName}>Документ:</span>
+                    <div className={styles.closeBlock}><span className={styles.close}>✖</span></div>
+                    <span className={styles.documentName}>Документ:</span> 
                     <Select
                         width='230px'
                         defaultSelected={Database.gosts.namesGosts.gost8509} 
@@ -112,6 +113,3 @@ render(){
 }
 
 }
-
-
-

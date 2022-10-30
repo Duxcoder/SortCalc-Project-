@@ -1,23 +1,22 @@
-.inputLength {
-    margin-bottom: 180px;
-    margin-right: 426px;
+.inputHeight {
+    margin-bottom: 140px;
+    margin-right: 450px;
 }
 
-.inputWidth {
-    margin-top: 230px;
-    margin-left: 60px;
+.inputDiameter{
+    margin-top: 310px;
+    margin-left: 144px;
 }
 
-.inputThickness {
-    margin-bottom: 180px;
-    margin-left: 110px;
+.inputLength{
+    margin-bottom: 300px;
+    margin-right: 300px;
 }
 
 .inputWeight{
-    margin-top: 230px;
-    margin-right: 426px;
+    margin-bottom: 100px;
+    margin-right: 300px;
 }
-
 .inputLock{
     border: solid 1px #eee !important;
     background-color: rgb(227, 227, 227) !important;
@@ -29,11 +28,8 @@
 
 .svg {
     display: absolute;
-    margin-right:90px;
-    margin-top: 120px;
-
+    margin-top: 60px;
 }
-
   
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -46,3 +42,4 @@ input[type="number"]:focus {
     appearance: none;
     -moz-appearance: textfield;
 }
+

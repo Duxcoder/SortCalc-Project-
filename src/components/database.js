@@ -48,12 +48,20 @@ const Database = {
     {
       namesGosts: {
         gost8509: 'ГОСТ 8509-93 Уголки стальные горячекатаные равнополочные',
-        gost8510: 'ГОСТ 8510-86 Уголки стальные горячекатаные неравнополочные'
+        gost8510: 'ГОСТ 8510-86 Уголки стальные горячекатаные неравнополочные',
+        gost8240: 'ГОСТ 8240-97 Швеллеры стальные горячекатаные'
       },
       corner: {
-        gost8509:createGostArr(dataCornerGost8509.h8509, dataCornerGost8509.w8509, dataCornerGost8509.t8509, dataCornerGost8509.R8509, dataCornerGost8509.r8509),
+        gost8509: createGostArr(dataCornerGost8509.h8509, dataCornerGost8509.w8509, dataCornerGost8509.t8509, dataCornerGost8509.R8509, dataCornerGost8509.r8509),
         gost8510: createGostArr(dataCornerGost8510.h8510, dataCornerGost8510.w8510, dataCornerGost8510.t8510, dataCornerGost8510.R8510, dataCornerGost8510.r8510),
       },
+      channel: {
+        gost8240: [
+            {name: '10У', height: 100, thicknessShelf: 7.6, thicknessWall: 4.5, widthBottom: 46, widthTop: 46, R: 7, r: 3},
+            {name: '20П', height: 200, thicknessShelf: 9.0, thicknessWall:5.2, widthBottom: 76, widthTop: 76, R: 9.5, r: 5.5},
+
+        ]
+      }
     }
 }
 

@@ -1,0 +1,60 @@
+.inputHeight {
+    margin-bottom: 160px;
+    margin-right: 326px;
+}
+
+.inputWidthTop{
+    margin-bottom: 488px;
+    margin-left: 202px;
+}
+
+.inputWidthBottom{
+    margin-top: 444px;
+    margin-left: 84px;
+}
+
+.inputThicknessWall {
+    margin-bottom: 160px;
+    margin-left: 276px;
+}
+
+.inputThicknessShelf {
+    margin-top: 14px;
+    margin-left: 276px;
+}
+
+.inputLength{
+    margin-bottom: 488px;
+    margin-right: 326px;
+}
+
+.inputWeight{
+    margin-top: 60px;
+    margin-right: 450px;
+}
+.inputLock{
+    border: solid 1px #eee !important;
+    background-color: rgb(227, 227, 227) !important;
+}
+.inputLock:focus{
+    outline: none !important;
+    background-color: none !important;
+}
+
+.svg {
+    display: absolute;
+    margin-top: 60px;
+}
+  
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; 
+}
+
+input[type='number'],
+input[type="number"]:hover,
+input[type="number"]:focus {
+    appearance: none;
+    -moz-appearance: textfield;
+}
+

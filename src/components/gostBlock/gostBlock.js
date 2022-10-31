@@ -29,25 +29,27 @@ transformToArr = (object) => {
         }
     return arr
 }
-giveArrDependingChoice = (checked, object, objectValues) => {
+giveArrDependingChoice = (checked, namesGost, objectValues) => {
     let res;
     const createArr = (dataArr) => {
         let arr = []
         dataArr.map(item => {
             arr.push(item.name)
         })
+        console.log(arr)
         return arr
     }
-    for (let prop in object){
-        if (checked === object[prop]){
+    for (let prop in namesGost){
+        if (checked === namesGost[prop]){
             return res = createArr(objectValues[prop])
         } else {
             res = ['0']
         }}
+        console.log(res)
     return res
 }
 componentDidMount(){
-    this.setState({checked: Database.gosts.namesGosts.gost8509})
+    this.setState({checked: this.props.checked})
         document.addEventListener('mousedown', (e) => {
             console.log(e.target)
             this.closeWindowGost(e)
@@ -61,7 +63,7 @@ iCheckModel = (value) => {
     this.setState({checkModel: value}, () => {
         for (let key in Database.gosts.namesGosts) {
             if (Database.gosts.namesGosts[key] === this.state.checked) { 
-                    Database.gosts.corner[key].map( item =>{
+                    Database.gosts[this.props.page][key].map( item =>{
                         item.name === value ? this.props.returnGostValue([item, Database.gosts.namesGosts[key]]) : console.log()
                     })
             }
@@ -91,7 +93,7 @@ render(){
                     <span className={styles.documentName}>Документ:</span> 
                     <Select
                         width='230px'
-                        defaultSelected={Database.gosts.namesGosts.gost8509} 
+                        defaultSelected={this.props.checked} 
                         whatYouCheck={this.iCheckIt}
                         dataValues={this.transformToArr(Database.gosts.namesGosts)}
                     ></Select>
@@ -100,7 +102,7 @@ render(){
                         size='10' 
                         height='200px' 
                         width='230px'
-                        dataValues={this.giveArrDependingChoice(this.state.checked, Database.gosts.namesGosts, Database.gosts.corner)}
+                        dataValues={this.giveArrDependingChoice(this.state.checked, Database.gosts.namesGosts, Database.gosts[this.props.page])}
                     ></Select>
                     
                 </div>

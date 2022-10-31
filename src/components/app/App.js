@@ -8,8 +8,8 @@ import Corner from '../pages/corner/corner';
 import Sheet from '../pages/sheet/sheet';
 import Pipe from '../pages/pipe/pipe'
 import Circle from '../pages/circle/circle'
+import Channel from '../pages/channel/channel'
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
-import {ReactComponent as DesignElement} from './img/designElement.svg'
 import {IconCorner, IconSheet, IconPipe, IconCircle, IconChannel, IconBeam, IconSquare, IconProfilePipe} from '../icons/Icons';
 import Database from '../database';
 import {FileText} from 'react-bootstrap-icons'
@@ -246,7 +246,31 @@ ViewContent = () => {
       </>)
 
     case 4 : 
-      return <p>This is 4</p>
+      return (
+        <>
+        <Channel weightOn = {this.state.weightOn} 
+                returnVolume = {this.returnVolume} 
+                activeReloadBtn = {this.activeReloadBtn}
+                gostOn = {this.gostOn}
+                result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+                material = {this.state.material}
+                density = {this.state.density}
+                >
+        </Channel>
+        <CalcBottomBlock 
+          activeReloadBtn = {this.state.btnReload}
+          clearInputs = {this.clearInputs}
+          data = {Database.grades} 
+          returnDensity = {this.returnDensity} 
+          defaultGraid = {Database.grades.steels[0]} 
+          result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+          labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+          weightOn = {this.weightOn}
+          returnMaterial = {this.returnMaterial}
+          >
+          </CalcBottomBlock>
+        </>
+      )
     
     case 5:
       return <p>This is 5</p>

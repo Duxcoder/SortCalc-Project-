@@ -1,0 +1,44 @@
+.inputLength {
+    margin-bottom: 236px;
+    margin-right: 430px;
+}
+
+.inputHeight {
+    margin-bottom: 16px;
+    margin-right: 430px;
+}
+
+.inputWeight{
+    margin-top: 190px;
+    margin-right: 426px;
+}
+
+.inputLock{
+    border: solid 1px #eee !important;
+    background-color: rgb(227, 227, 227) !important;
+}
+.inputLock:focus{
+    outline: none !important;
+    background-color: none !important;
+}
+
+.svg {
+    display: absolute;
+    margin-right:90px;
+    margin-top: 60px;
+    margin-bottom: 50px;
+
+}
+
+  
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none; 
+}
+
+input[type='number'],
+input[type="number"]:hover,
+input[type="number"]:focus {
+    appearance: none;
+    -moz-appearance: textfield;
+}

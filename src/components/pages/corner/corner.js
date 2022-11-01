@@ -179,7 +179,11 @@ render(){
     const {names:{width, thickness, height}, values} = this.state;
     let gostBlockRender;
     if (this.state.gostBlockView) {
-        gostBlockRender =  <GostBlock checked = {Database.gosts.namesGosts.gost8509} page="corner" clickOnGost={this.clickOnGost} returnGostValue={this.returnGostValue}></GostBlock>
+        gostBlockRender =  <GostBlock checked = {Database.gosts.namesGosts.gost8509} 
+                                      page="corner" 
+                                      gostNames = {['gost8509', 'gost8510']}
+                                      clickOnGost={this.clickOnGost} 
+                                      returnGostValue={this.returnGostValue}></GostBlock>
     }
     return (
     <>

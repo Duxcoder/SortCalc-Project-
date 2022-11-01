@@ -9,6 +9,7 @@ import Sheet from '../pages/sheet/sheet';
 import Pipe from '../pages/pipe/pipe'
 import Circle from '../pages/circle/circle'
 import Channel from '../pages/channel/channel'
+import Square from '../pages/square/square';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {IconCorner, IconSheet, IconPipe, IconCircle, IconChannel, IconBeam, IconSquare, IconProfilePipe} from '../icons/Icons';
 import Database from '../database';
@@ -276,7 +277,30 @@ ViewContent = () => {
       return <p>This is 5</p>
       
     case 6 : 
-      return <p>This is 6</p>
+      return (
+        <>
+        <Square weightOn = {this.state.weightOn} 
+              returnVolume = {this.returnVolume} 
+              activeReloadBtn = {this.activeReloadBtn}
+              gostOn = {this.gostOn}
+              result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+              material = {this.state.material}
+              density = {this.state.density}
+                >
+        </Square>
+        <CalcBottomBlock 
+          activeReloadBtn = {this.state.btnReload}
+          clearInputs = {this.clearInputs}
+          data = {Database.grades} 
+          returnDensity = {this.returnDensity} 
+          defaultGraid = {Database.grades.steels[0]} 
+          result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+          labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+          weightOn = {this.weightOn}
+          returnMaterial = {this.returnMaterial}
+          >
+          </CalcBottomBlock>
+        </>)
     
     case 7 :
       return <p>This is 7</p>

@@ -25,7 +25,9 @@ clickOnGost = () => {
 transformToArr = (object) => {
     let arr = []
         for (let key in object){
-            arr.push(object[key])
+            console.log(key)
+            let findGostForPage = this.props.gostNames.some(item => item === key)
+            if (findGostForPage) {arr.push(object[key])}
         }
     return arr
 }

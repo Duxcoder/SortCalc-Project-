@@ -190,7 +190,11 @@ render(){
     const {names:{widthTop, widthBottom, thicknessShelf, thicknessWall, height}, values} = this.state;
     let gostBlockRender;
     if (this.state.gostBlockView) {
-        gostBlockRender =  <GostBlock page="channel" checked = {Database.gosts.namesGosts.gost8240} clickOnGost={this.clickOnGost} returnGostValue={this.returnGostValue}></GostBlock>
+        gostBlockRender =  <GostBlock page="channel" 
+                                      gostNames = {['gost8240']}
+                                      checked = {Database.gosts.namesGosts.gost8240} 
+                                      clickOnGost={this.clickOnGost} 
+                                      returnGostValue={this.returnGostValue}></GostBlock>
     }
     return (
     <>

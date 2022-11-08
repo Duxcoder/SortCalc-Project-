@@ -10,11 +10,12 @@ import Pipe from '../pages/pipe/pipe'
 import Circle from '../pages/circle/circle'
 import Channel from '../pages/channel/channel'
 import Square from '../pages/square/square';
+import Beam from '../pages/beam/beam';
 import CalcBottomBlock from '../calcBottomBlock/calcBottomBlock';
 import {IconCorner, IconSheet, IconPipe, IconCircle, IconChannel, IconBeam, IconSquare, IconProfilePipe} from '../icons/Icons';
 import Database from '../database';
 import {FileText} from 'react-bootstrap-icons'
-
+import {motion} from 'framer-motion'
 
 const Line = styled.div`
 display: block;
@@ -57,6 +58,9 @@ padding: 4px;
 background-color: #241414;
 text-align: center;
 `
+
+const animateFrom = {opacity: 0}
+const animateTo = {opacity: 1}
 export default class App extends Component {
 constructor(props){
   super(props)
@@ -143,7 +147,7 @@ ViewContent = () => {
    switch (number){
     case 0 : 
       return (
-      <>
+      <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
       <Corner weightOn = {this.state.weightOn} 
               returnVolume = {this.returnVolume} 
               activeReloadBtn = {this.activeReloadBtn}
@@ -165,14 +169,15 @@ ViewContent = () => {
         returnMaterial = {this.returnMaterial}
         >
         </CalcBottomBlock>
-      </>
+      </motion.div>
       )
     case 1 : 
       return (
-        <>
-        <Sheet weightOn = {this.state.weightOn} 
-               returnVolume={this.returnVolume}
-               gostOn = {this.gostOn} 
+        <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
+        <Sheet 
+              weightOn = {this.state.weightOn} 
+              returnVolume={this.returnVolume}
+              gostOn = {this.gostOn} 
               activeReloadBtn={this.activeReloadBtn}
               result = {this.postResult(density, volume, 'кг', 'мм', 2, 0)}
               material = {this.state.material}
@@ -191,12 +196,12 @@ ViewContent = () => {
           returnMaterial = {this.returnMaterial}
         >
         </CalcBottomBlock>
-        </>
+        </motion.div>
       )
       
     case 2:
       return (
-      <>
+      <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
       <Pipe weightOn = {this.state.weightOn} 
             returnVolume = {this.returnVolume} 
             activeReloadBtn = {this.activeReloadBtn}
@@ -218,11 +223,11 @@ ViewContent = () => {
         returnMaterial = {this.returnMaterial}
         >
         </CalcBottomBlock>
-      </>)
+      </motion.div>)
 
     case 3 : 
     return (
-      <>
+      <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
       <Circle weightOn = {this.state.weightOn} 
               returnVolume = {this.returnVolume} 
               activeReloadBtn = {this.activeReloadBtn}
@@ -244,11 +249,11 @@ ViewContent = () => {
         returnMaterial = {this.returnMaterial}
         >
         </CalcBottomBlock>
-      </>)
+      </motion.div>)
 
     case 4 : 
       return (
-        <>
+        <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
         <Channel weightOn = {this.state.weightOn} 
                 returnVolume = {this.returnVolume} 
                 activeReloadBtn = {this.activeReloadBtn}
@@ -270,15 +275,39 @@ ViewContent = () => {
           returnMaterial = {this.returnMaterial}
           >
           </CalcBottomBlock>
-        </>
+        </motion.div>
       )
     
     case 5:
-      return <p>This is 5</p>
+      return (
+        <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
+        <Beam weightOn = {this.state.weightOn} 
+                returnVolume = {this.returnVolume} 
+                activeReloadBtn = {this.activeReloadBtn}
+                gostOn = {this.gostOn}
+                result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+                material = {this.state.material}
+                density = {this.state.density}
+                >
+        </Beam>
+        <CalcBottomBlock 
+          activeReloadBtn = {this.state.btnReload}
+          clearInputs = {this.clearInputs}
+          data = {Database.grades} 
+          returnDensity = {this.returnDensity} 
+          defaultGraid = {Database.grades.steels[0]} 
+          result = {this.postResult(density, volume, 'кг', 'м', 2, 2)}
+          labelForResult = {this.state.weightOn ? 'Вес: ' : 'Длина: '}
+          weightOn = {this.weightOn}
+          returnMaterial = {this.returnMaterial}
+          >
+          </CalcBottomBlock>
+        </motion.div>
+      )
       
     case 6 : 
       return (
-        <>
+        <motion.div initial = {animateFrom} animate = {animateTo} transition = {{delay: 0.01}}>
         <Square weightOn = {this.state.weightOn} 
               returnVolume = {this.returnVolume} 
               activeReloadBtn = {this.activeReloadBtn}
@@ -300,7 +329,7 @@ ViewContent = () => {
           returnMaterial = {this.returnMaterial}
           >
           </CalcBottomBlock>
-        </>)
+        </motion.div>)
     
     case 7 :
       return <p>This is 7</p>
@@ -342,6 +371,7 @@ GostBlock = () => {
                 <ButtonsList numb = {this.numberBtnActive} valueBtns={this.btnList('#888', '#000')}></ButtonsList>
             </Col> 
             <Col xl={{ span: 8 }} className="main position-relative">
+              
               <HeaderTitleBlock>
                 <span className='pageName'>ТИП ПРОКАТА: {this.sendPageName(this.btnList)}</span>
                 <this.GostBlock ></this.GostBlock>

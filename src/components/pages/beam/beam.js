@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import { ReactComponent as YourSvg } from './corner.svg';
+import { ReactComponent as YourSvg } from './beam.svg';
 import styles from './style.module.css';
 import BlockInput from "../../input/BlockInput";
 import Database from "../../database";
 import GostBlock from "../../gostBlock/gostBlock";
-
-export default class Corner extends Component {
+export default class beam extends Component {
     constructor(props){
         super(props);
         this.state = {
-            gostBlockView: true,
+            gostBlockView: false,
             gostOn: false,
             weightOn: true,
             names: { width: 'Ширина, мм',
                     length: 'Длина, м',
-                    thickness: 'Толщина, мм',
+                    thicknessWall: 'Толщина стенки, мм',
+                    thicknessShelf: 'Толщина полки, мм',
                     height: 'Высота, мм',
                     weight: 'Вес, кг'
             },
@@ -35,10 +35,10 @@ export default class Corner extends Component {
         const {weightOn} = this.props
         if (weightOn !== prevProps.weightOn){
             this.setState({weightOn: weightOn}); // Переключатель вес/длина сохраняется при переключении страниц
-            this.choiceCalculator('corner', 'Сталь')
+            this.choiceCalculator('beam', 'Сталь')
         }
         if (prevProps.material !== this.props.material){
-            this.choiceCalculator('corner', 'Сталь')
+            this.choiceCalculator('beam', 'Сталь')
 
         }
     }
@@ -59,13 +59,17 @@ export default class Corner extends Component {
     }
 
     findGostValues = (page) => {
-        const {height, width, thickness} = this.state.values;
+        const {height, width, thicknessWall, thicknessShelf} = this.state.values;
         let arr = [];
         for (let key in Database.gosts[page]){
             Database.gosts[page][key].map(item => {
-                if (item.height === height && item.width === width && item.thickness === thickness) {
-                    const nameGost = Database.gosts.namesGosts[key]
-                    arr.push(item, nameGost)
+                if (item.height === height && 
+                    item.width === width && 
+                    item.thicknessWall === thicknessWall &&
+                    item.thicknessShelf === thicknessShelf
+                    ) {
+                        const nameGost = Database.gosts.namesGosts[key]
+                        arr.push(item, nameGost)
                 } 
             })
         }
@@ -81,8 +85,9 @@ export default class Corner extends Component {
         this.setState({ values:{
             ...this.state.values, 
             height: valuesGostObj.height, 
-            width: valuesGostObj.width, 
-            thickness: valuesGostObj.thickness,
+            width: valuesGostObj.width,
+            thicknessWall: valuesGostObj.thicknessWall,
+            thicknessShelf: valuesGostObj.thicknessShelf,
             R: valuesGostObj.R,
             r: valuesGostObj.r}
         }, () => {fn()})
@@ -95,28 +100,28 @@ export default class Corner extends Component {
    
     calcSquare = (coefficient) => {
         const {gostOn, weightOn, returnVolume} = this.props
-        const {values: {width, length, thickness, height, weight}} = this.state
+        const {values: {width, length, thicknessWall, thicknessShelf, height, weight}} = this.state
         this.setState({gostOn:false}, () => {gostOn(false, '')}) //отключение ГОСТ, расчёт по формуле
         if (weightOn) {
-            returnVolume((((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000)) * length); // расчёт объема (для веса)
+            returnVolume(((coefficient * (thicknessShelf * (width - (2 * thicknessWall))) + (thicknessWall * height)) / 1000000) * length)// расчёт объема (для веса)
         } else {
-            returnVolume(weight/(((thickness*width) + ((height-thickness)*thickness)) * (coefficient/1000000))); // расчёт значения для длины
+            returnVolume(weight/((coefficient + (thicknessWall * (width- (2 * thicknessShelf)) + (thicknessShelf * height))) / 1000000)); // расчёт значения для длины
         }
     }
 
     calcSquareGost= (R, r) => {
         const {weightOn, returnVolume} = this.props
-        const {values: {width, length, thickness, height, weight}} = this.state
+        const {values: {width, length, thicknessWall, thicknessShelf, height, weight}} = this.state
         if (weightOn) {
-            returnVolume(((thickness * (width + height - thickness)) + (0.2146 * (R ** 2 - 2 * r ** 2))) * length / 1000000)}
+            returnVolume((((0.429 * ((R ** 2) - (r ** 2))) + (thicknessShelf * (width - (2 * thicknessWall))) + (thicknessWall * height)) / 1000000) * length)}
         else {
-            returnVolume(weight/((thickness * (width + height - thickness) + 0.2146 * (R ** 2 - 2 * r ** 2)) / 1000000))
+            returnVolume(weight/(((0.429 * ((R ** 2) - (r ** 2))) + (thicknessShelf * (width - (2 * thicknessWall))) + (thicknessWall * height)) / 1000000))
         }
     }
 
     getValue = (id) => {
         this.setState({values: { ...this.state.values, ...id}}, () => {
-         this.choiceCalculator('corner', 'Сталь');
+         this.choiceCalculator('beam', 'Сталь');
          this.visibleBtn()
         });
      }
@@ -177,12 +182,12 @@ export default class Corner extends Component {
     }
 
 render(){
-    const {names:{width, thickness, height}, values} = this.state;
+    const {names:{width, thicknessShelf, thicknessWall, height}, values} = this.state;
     let gostBlockRender;
     if (this.state.gostBlockView) {
-        gostBlockRender =  <GostBlock checked = {Database.gosts.namesGosts.gost8509} 
-                                      page="corner" 
-                                      gostNames = {['gost8509', 'gost8510']}
+        gostBlockRender =  <GostBlock page="beam" 
+                                      gostNames = {['gost8240']}
+                                      checked = {Database.gosts.namesGosts.gost8240} 
                                       clickOnGost={this.clickOnGost} 
                                       returnGostValue={this.returnGostValue}></GostBlock>
     }
@@ -191,16 +196,24 @@ render(){
         {gostBlockRender}
         <div className="d-flex justify-content-center align-items-center transition" >
             <this.RenderInput weightOn={this.props.weightOn}></this.RenderInput>
-            <BlockInput id ={'width'} 
+            <BlockInput id ={'widthTop'} 
                         value = {values.width} 
                         name={width} 
                         className={styles.inputWidth} 
                         valueNum={this.getValue} 
                         placeholder={'0 мм'}
             ></BlockInput>
-            <BlockInput id ={'thickness'} 
-                        value = {values.thickness} name={thickness} 
-                        className={styles.inputThickness} 
+            <BlockInput id ={'thicknessShelf'} 
+                        value = {values.thicknessShelf} 
+                        name={thicknessShelf} 
+                        className={styles.inputThicknessShelf} 
+                        valueNum={this.getValue} 
+                        placeholder={'0 мм'}
+            ></BlockInput>
+            <BlockInput id ={'thicknessWall'} 
+                        value = {values.thicknessWall} 
+                        name={thicknessWall} 
+                        className={styles.inputThicknessWall} 
                         valueNum={this.getValue} 
                         placeholder={'0 мм'}
             ></BlockInput>
